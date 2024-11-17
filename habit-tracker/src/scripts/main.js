@@ -1,12 +1,10 @@
-import { setupCounter } from 'src/scripts/counter.mjs'
+import setupCounter from './counter.mjs';
+import "../styles/style.css";
+import viteLogo from "/images/vite.svg";
+import javascriptLogo from "/images/javascript.svg";
+import { loadHeaderFooter } from './headerFooter.mjs';
 
-let javascriptLogo = document.createElement("img");
-javascriptLogo.src = "habit-tracker/src/public/images/javascript.svg";
-javascriptLogo.alt = "JavaScript Logo";
-
-let viteLogo = document.createElement("img");
-viteLogo.src = "habit-tracker/src/scripts/counter.js";
-vite.alt = "Vite Logo";
+loadHeaderFooter();
 
 document.querySelector('#app').innerHTML = `
   <div>
