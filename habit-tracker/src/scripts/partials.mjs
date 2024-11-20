@@ -20,6 +20,7 @@ function loadTemplate(path) {
     };
 }
 
+//header and footer
 export function loadHeaderFooter() {
     const headerTemplateFn = loadTemplate("/partials/header.html");
     const footerTemplateFn = loadTemplate("/partials/footer.html");
