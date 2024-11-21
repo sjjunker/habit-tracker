@@ -43,6 +43,25 @@ body {
   background: linear-gradient(var(--background-color-one), var(--background-color-two));
 }
 
+main {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+#habits-div {
+  width: 80vw;
+}
+
+#add-habit-button {
+  background-color: var(--primary-color);
+  margin: 1rem;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 1.25rem;
+  padding: none;
+
+}
+
 * {
   box-sizing: border-box;
 }
@@ -201,34 +220,24 @@ button:focus-visible {
 /* The Modal (background) */
 .loginModal {
   display: none;
-  /* Hidden by default */
   position: fixed;
-  /* Stay in place */
   z-index: 1;
-  /* Sit on top */
   left: 0;
   top: 0;
   width: 100%;
-  /* Full width */
   height: 100%;
-  /* Full height */
   overflow: auto;
-  /* Enable scroll if needed */
   background-color: rgb(0, 0, 0);
-  /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4);
-  /* Black w/ opacity */
 }
 
 /* Modal Content/Box */
 .login-content {
   background-color: #fefefe;
   margin: 15% auto;
-  /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
-  /* Could be more or less, depending on screen size */
 }
 
 /* The Close Button */
@@ -244,6 +253,48 @@ button:focus-visible {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+/*End Login Styles*/
+
+/*Habit list styles*/
+ul {
+  display: contents;
+  width: 100%;
+}
+
+li {
+  list-style-type: none;
+  background-color: var(--tertiary-color);
+  color: var(--secondary-color);
+  border-radius: 1rem;
+}
+
+li div {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.progress-bar-inner-class {
+  width: 50%;
+  height: 1rem;
+  background-color: var(--primary-color);
+  display: block;
+}
+
+.progress-bar-outter-class {
+  width: 10rem;
+  height: 1rem;
+  background-color: white;
+  display: block;
+  justify-content: left;
+  align-content: center;
+}
+
+.progress-bar-outter-class,
+.progress-bar-inner-class {
+  border-radius: 1rem;
 }
 
 footer {

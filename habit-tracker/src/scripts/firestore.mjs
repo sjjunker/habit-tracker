@@ -46,8 +46,15 @@ export async function readData(db, databaseName) {
     let dataArray = [];
 
     querySnapshot.forEach((doc) => {
-        dataArray.push(`${doc.id} => ${doc.data()}`);
+        dataArray.push({
+            habitName: doc.data().habitName,
+            habitCategory: doc.data().habitCategory,
+            habitFrequency: doc.data().habitFrequency,
+            habitGoal: doc.data().habitGoal,
+            setReminder: doc.data().setReminder,
+            habitDescription: doc.data().habitDescription,
+            events: doc.data().events ?? []
+        });
     });
-
     return dataArray;
 }

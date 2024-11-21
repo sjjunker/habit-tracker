@@ -7,40 +7,48 @@ loadHeaderFooter();
 loadLogin();
 const db = startFirestore();
 const habitDatabaseName = "habits";
+let habitList;
 
 //Get the list of habits
-const habitList = await readData(db, habitDatabaseName);
-console.log(habitList);
-renderHabitsList()
+async function loadHabitList() {
+  habitList = await readData(db, habitDatabaseName);
+  console.log(habitList);
+  renderHabitsList(habitList);
+}
+
 
 //Render the list to the HTML
-function renderHabitsList() {
+function renderHabitsList(habits) {
   const habitsList = document.getElementById("habits-list");
   let idName = 0;
 
-  habitList.forEach(habit => {
+  habits.forEach(habit => {
     let habitLi = document.createElement("li");
+    let habitLiDiv = document.createElement("div");
     let checkBox = document.createElement("input");
     let habitName = document.createElement("h3");
     let progressBarInner = document.createElement("div");
     let progressBarOutter = document.createElement("div");
 
     //Set attributes
-    habitName.innerHTML = habit.name;
+    habitName.innerHTML = habit.habitName;
 
     checkBox.type = "checkbox";
     checkBox.name = `isCompleted${idName}`;
     checkBox.id = `isCompleted${idName}`;
-    checkBox.className("checkbox");
+    checkBox.className = "checkboxClass";
 
-    progressBarInner.class = "progress-bar-inner";
-    progressBarOutter.class = "progress-bar-outter";
+    progressBarInner.id = "progress-bar-inner";
+    progressBarInner.className = "progress-bar-inner-class";
+    progressBarOutter.id = "progress-bar-outter";
+    progressBarOutter.className = "progress-bar-outter-class";
     progressBarOutter.appendChild(progressBarInner);
 
     //Add to li
-    habitLi.appendChild(checkBox);
-    habitLi.appendChild(habitName);
-    habitLi.appendChild(progressBarOutter);
+    habitLiDiv.appendChild(checkBox);
+    habitLiDiv.appendChild(habitName);
+    habitLiDiv.appendChild(progressBarOutter);
+    habitLi.appendChild(habitLiDiv);
 
     //Add to ul
     habitsList.appendChild(habitLi);
@@ -49,7 +57,6 @@ function renderHabitsList() {
     idName += 1;
   });
 }
-
 
 //Login Modal
 export function loadLogin() {
@@ -63,12 +70,17 @@ export function loadLogin() {
   });
 
   //Close the modal on click
-  submitButton.addEventListener("click", () => {
+  submitButton.addEventListener("click", async () => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     login(email, password);
     console.log(email);
     modal.style.display = "none";
+    try {
+      loadHabitList();
+    } catch (error) {
+      console.error("Error:", error);
+    }
   });
 
   // When the user clicks anywhere outside of the modal, close it
