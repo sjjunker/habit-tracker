@@ -143,6 +143,18 @@ button:focus-visible {
   width: 100%;
   color: var(--secondary-color);
   background-color: var(--tertiary-color);
+  border-radius: 0;
+}
+
+#show-login {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0.5em 0;
+  color: var(--secondary-color);
+  background-color: var(--tertiary-color);
+  border: none;
+  text-decoration: none;
 }
 
 #hamburger-menu~.menu li {
@@ -217,8 +229,9 @@ button:focus-visible {
 
 /*end hamburger menu*/
 
-/* The Modal (background) */
-.loginModal {
+/* Modal Styles */
+#login-modal,
+#add-habit-modal {
   display: none;
   position: fixed;
   z-index: 1;
@@ -229,33 +242,32 @@ button:focus-visible {
   overflow: auto;
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
+  color: var(--secondary-color);
 }
 
-/* Modal Content/Box */
-.login-content {
-  background-color: #fefefe;
+.login-content,
+.add-habit-content {
+  background-color: var(--tertiary-color);
   margin: 15% auto;
-  padding: 20px;
+  padding: 2rem;
   border: 1px solid #888;
-  width: 80%;
+  width: 50%;
+  border: 3px solid var(--primary-color);
+  border-radius: 1rem;
 }
 
-/* The Close Button */
-.login-submit {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+#login-form,
+#add-habit-form {
+  display: flex;
+  flex-direction: column;
 }
 
-.login-submit:hover,
-.login-submit:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+#login-submit,
+#add-habit-submit {
+  margin-top: 1rem;
 }
 
-/*End Login Styles*/
+/*End Modal Styles*/
 
 /*Habit list styles*/
 ul {

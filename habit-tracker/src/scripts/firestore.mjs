@@ -16,14 +16,9 @@ export function startFirestore() {
 }
 
 //Add data
-export async function addData(db, databaseName, objectProperties) {
+export async function addData(db, collectionName, documentProperties) {
     try {
-        const docRef = await addDoc(collection(db, databaseName/*"users"*/), {
-            objectProperties
-            /*first: "Ada",
-            last: "Lovelace",
-            born: 1815*/
-        });
+        const docRef = await addDoc(collection(db, collectionName), documentProperties);
         console.log("Document written with ID: ", docRef.id);
     } catch (e) {
         console.error("Error adding document: ", e);
@@ -31,18 +26,18 @@ export async function addData(db, databaseName, objectProperties) {
 }
 
 //Update data
-export async function updateData(db, databaseName, documentId, docData) {
-    await setDoc(doc(db, databaseName, documentId), docData);
+export async function updateData(db, collectionName, documentId, docData) {
+    await setDoc(doc(db, collectionName, documentId), docData);
 }
 
 //Delete Data
-export async function deleteData(db, databaseName, documentId) {
-    await deleteDoc(doc(db, databaseName, documentId));
+export async function deleteData(db, collectionName, documentId) {
+    await deleteDoc(doc(db, collectionName, documentId));
 }
 
 //Read data
-export async function readData(db, databaseName) {
-    const querySnapshot = await getDocs(collection(db, databaseName));
+export async function readData(db, collectionName) {
+    const querySnapshot = await getDocs(collection(db, collectionName));
     let dataArray = [];
 
     querySnapshot.forEach((doc) => {

@@ -12,9 +12,8 @@
   <header id="main-header"></header>
 
   <main>
-    <button type="button" id="show-login">Open Modal</button>
-    <!-- The Modal -->
-    <div id="loginModal" class="loginModal">
+    <!-- The Login Modal -->
+    <div id="login-modal">
       <!-- Modal content -->
       <div class="login-content">
         <form id="login-form">
@@ -23,6 +22,41 @@
           <label for="password">Password:</label>
           <input type="password" id="password" name="password" required />
           <button type="button" id="login-submit">Login</button>
+        </form>
+      </div>
+    </div>
+
+    <!--The add habits modal-->
+    <div id="add-habit-modal">
+      <!-- Modal content -->
+      <div class="add-habit-content">
+        <form id="add-habit-form">
+
+          <label for="habitName">Name</label>
+          <input type="text" id="habitName" name="habitName" required />
+
+          <label for="habitCategory">Category</label>
+          <select name="habitCategory" id="habitCategory">
+            <option value="physical">Physical</option>
+            <option value="social">Social</option>
+            <option value="spiritual">Spiritual</option>
+            <option value="intellectual">Intellectual</option>
+          </select>
+
+          <label for="habitGoal">Goal</label>
+          <input type="text" name="habitGoal" id="habitGoal">
+
+          <label for="habitFrequency">Frequency</label>
+          <input type="radio" value="daily" name="habitFrequency">Daily<br>
+          <input type="radio" value="weekly" name="habitFrequency">Weekly<br>
+          <input type="radio" value="monthly" name="habitFrequency">Monthly<br>
+
+          <label for="habitDescription">Description</label>
+          <textarea id="habitDescription" name="habitDescription"></textarea>
+
+          <input type="checkbox" id="setReminder" name="setReminder">Set Reminder<br>
+
+          <button type="button" id="add-habit-submit">Add</button>
         </form>
       </div>
     </div>

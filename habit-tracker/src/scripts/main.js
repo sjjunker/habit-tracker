@@ -2,20 +2,25 @@ import "../styles/style.css";
 import { loadHeaderFooter } from './partials.mjs';
 import { startFirestore, readData } from './firestore.mjs';
 import { login } from "./Authentication.mjs";
+import addHabit from "./addHabits.mjs";
 
 loadHeaderFooter();
-loadLogin();
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    loadLogin()
+  }, 3000);
+});
 const db = startFirestore();
 const habitDatabaseName = "habits";
-let habitList;
+
+//Set listener for adding habits
+addHabit(db, habitDatabaseName);
 
 //Get the list of habits
-async function loadHabitList() {
-  habitList = await readData(db, habitDatabaseName);
-  console.log(habitList);
-  renderHabitsList(habitList);
+export async function loadHabitList() {
+  const habitData = await readData(db, habitDatabaseName);
+  renderHabitsList(habitData);
 }
-
 
 //Render the list to the HTML
 function renderHabitsList(habits) {
@@ -60,7 +65,7 @@ function renderHabitsList(habits) {
 
 //Login Modal
 export function loadLogin() {
-  var modal = document.getElementById("loginModal");
+  var modal = document.getElementById("login-modal");
   var showButton = document.getElementById("show-login");
   var submitButton = document.getElementById("login-submit");
 
@@ -74,7 +79,7 @@ export function loadLogin() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     login(email, password);
-    console.log(email);
+
     modal.style.display = "none";
     try {
       loadHabitList();
