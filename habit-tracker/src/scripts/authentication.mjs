@@ -8,11 +8,13 @@ export async function newUser() {
             // Signed up 
             const user = userCredential.user;
             localStorage.setItem("user", user);
+            return true;
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
             console.log(`${errorCode}: ${errorMessage}`);
+            return false;
         });
 }
 
@@ -24,11 +26,13 @@ export async function login(email, password) {
             // Signed in 
             const user = userCredential.user;
             localStorage.setItem("user", user);
+            return true;
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
             console.log(`${errorCode}: ${errorMessage}`);
+            return false;
         });
 }
 

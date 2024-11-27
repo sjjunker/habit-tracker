@@ -1,13 +1,15 @@
 import { addData } from "./firestore.mjs";
 
-export default function addHabit(db, collectionName) {
+export default function addHabit(db, collectionName, isLoggedIn) {
     var modal = document.getElementById("add-habit-modal");
     var addButton = document.getElementById("add-habit-button");
     var submitButton = document.getElementById("add-habit-submit");
 
     //Open the modal on click
     addButton.addEventListener("click", () => {
-        modal.style.display = "block";
+        if (isLoggedIn) {
+            modal.style.display = "block";
+        }
     });
 
     //Close the modal on click

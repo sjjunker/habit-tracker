@@ -12,9 +12,7 @@ window.addEventListener("load", () => {
 });
 const db = startFirestore();
 const habitDatabaseName = "habits";
-
-//Set listener for adding habits
-addHabit(db, habitDatabaseName);
+let isLoggedIn = false;
 
 //Get the list of habits
 export async function loadHabitList() {
@@ -78,7 +76,8 @@ export function loadLogin() {
   submitButton.addEventListener("click", async () => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    login(email, password);
+    isLoggedIn = login(email, password);
+    addHabit(db, habitDatabaseName, isLoggedIn);
 
     modal.style.display = "none";
     try {
