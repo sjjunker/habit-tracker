@@ -1,4 +1,5 @@
 import { addData } from "./firestore.mjs";
+import loadHabitList from "./habitsList.mjs";
 
 export default function addHabit(db, collectionName, isLoggedIn) {
     var modal = document.getElementById("add-habit-modal");
@@ -35,7 +36,7 @@ export default function addHabit(db, collectionName, isLoggedIn) {
 
         //Reload habits list
         document.getElementById("habits-list").innerHTML = "";
-        loadHabitList();
+        loadHabitList(db, collectionName);
 
         //Hide modal
         modal.style.display = "none";
