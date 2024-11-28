@@ -16,6 +16,7 @@ function renderHabitsList(habits) {
         let habitLi = document.createElement("li");
         let habitLiDiv = document.createElement("div");
         let checkBox = document.createElement("input");
+        let habitDetailLink = document.createElement("a");
         let habitName = document.createElement("h3");
         let progressBarInner = document.createElement("div");
         let progressBarOutter = document.createElement("div");
@@ -34,9 +35,12 @@ function renderHabitsList(habits) {
         progressBarOutter.className = "progress-bar-outter-class";
         progressBarOutter.appendChild(progressBarInner);
 
+        habitDetailLink.innerHTML = habitName;
+        habitDetailLink.href = "/"
+
         //Add to li
         habitLiDiv.appendChild(checkBox);
-        habitLiDiv.appendChild(habitName);
+        habitLiDiv.appendChild(habitDetailLink);
         habitLiDiv.appendChild(progressBarOutter);
         habitLi.appendChild(habitLiDiv);
 
