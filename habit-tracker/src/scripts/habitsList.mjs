@@ -13,17 +13,15 @@ function renderHabitsList(habits) {
     let idName = 0;
 
     habits.forEach(habit => {
+        console.log(habit);
         let habitLi = document.createElement("li");
         let habitLiDiv = document.createElement("div");
         let checkBox = document.createElement("input");
         let habitDetailLink = document.createElement("a");
-        let habitName = document.createElement("h3");
         let progressBarInner = document.createElement("div");
         let progressBarOutter = document.createElement("div");
 
         //Set attributes
-        habitName.innerHTML = habit.habitName;
-
         checkBox.type = "checkbox";
         checkBox.name = `isCompleted${idName}`;
         checkBox.id = `isCompleted${idName}`;
@@ -35,8 +33,8 @@ function renderHabitsList(habits) {
         progressBarOutter.className = "progress-bar-outter-class";
         progressBarOutter.appendChild(progressBarInner);
 
-        habitDetailLink.innerHTML = habitName;
-        habitDetailLink.href = "/"
+        habitDetailLink.innerHTML = habit.habitName;;
+        habitDetailLink.href = `/habitDetailView/index.html?habitName=${habit.habitName}&habitCategory=${habit.habitCategory}&habitDescription=${habit.habitDescription}&habitGoal=${habit.habitGoal}$habitFrequency=${habit.habitFrequency}&setReminder=${habit.setReminder}`;
 
         //Add to li
         habitLiDiv.appendChild(checkBox);
