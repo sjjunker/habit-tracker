@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
-import { doc, collection, addDoc, getDocs, deleteDoc } from "firebase/firestore";
+import { doc, collection, addDoc, getDocs, deleteDoc, setDoc } from "firebase/firestore";
 
 export function startFirestore() {
     const app = initializeApp({
@@ -42,6 +42,7 @@ export async function readData(db, collectionName) {
 
     querySnapshot.forEach((doc) => {
         dataArray.push({
+            habitId: doc.id,
             habitName: doc.data().habitName,
             habitCategory: doc.data().habitCategory,
             habitFrequency: doc.data().habitFrequency,

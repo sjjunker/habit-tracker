@@ -1,28 +1,12 @@
-import { addData } from "./firestore.mjs";
+import { updateData } from "./firestore.mjs";
 import loadHabitList from "./habitsList.mjs";
 
-export default function addHabit(db, collectionName, isLoggedIn) {
-    var modal = document.getElementById("add-habit-modal");
-    var addButton = document.getElementById("add-habit-button");
-    var submitButton = document.getElementById("add-habit-submit");
+export default function updateHabit(db, collectionName, documentId) {
+    let submitButton = document.getElementById("add-habit-submit");
+    let modal = document.getElementById("add-habit-modal");
 
-    //Open the modal on click
-    addButton.addEventListener("click", () => {
-        if (isLoggedIn) {
-            modal.style.display = "block";
-
-            //Clear defaults
-            document.getElementById("habitName").value = null;
-            document.getElementById("habitCategory").value = null;
-            document.getElementById("habitGoal").value = null;
-            document.getElementById("habitFrequency").value = null;
-            document.getElementById("habitDescription").value = null;
-            document.getElementById("setReminder").value = null;
-        }
-
-        //Close the modal on click
-        submitButton.addEventListener("click", setData);
-    });
+    //Close the modal on click
+    submitButton.addEventListener("click", setData);
 
     function setData() {
         //Get form values
@@ -42,11 +26,12 @@ export default function addHabit(db, collectionName, isLoggedIn) {
             habitName: name,
             setReminder: reminder
         }
-
-        addData(db, collectionName, habitProperties);
+        console.log(documentId);
+        updateData(db, collectionName, documentId, habitProperties);
 
         //Reload habits list
         document.getElementById("habits-list").innerHTML = "";
+
         loadHabitList(db, collectionName);
 
         //Hide modal and remove event listener

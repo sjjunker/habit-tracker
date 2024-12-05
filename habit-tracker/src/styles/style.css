@@ -333,7 +333,18 @@ li div {
   display: grid;
   align-items: center;
   justify-items: center;
-  grid-template-columns: 1fr 2fr 2fr;
+  grid-template-columns: 1fr 2fr 2fr 1fr 1fr;
+}
+
+#edit-button,
+#delete-button {
+  background-color: var(--tertiary-color);
+}
+
+#edit-button img,
+#delete-button img {
+  width: 3vw;
+  height: 3vh;
 }
 
 .progress-bar-inner-class {
@@ -360,13 +371,25 @@ li div {
 
 /*Habit Detail Styling*/
 #title,
-#habit-category-div {
+#habit-category-div,
+#habit-description-div {
   display: grid;
   grid-template-columns: 4fr 1fr 1fr;
-  justify-content: space-between;
-  width: 80vw;
-  margin: auto;
+  width: 90vw;
+  margin: 0 auto;
   align-items: center;
+}
+
+#title>*:nth-child(0),
+#habit-category-div>*:nth-child(0),
+#habit-description-div>*:nth-child(0) {
+  justify-content: left;
+}
+
+#title>*:nth-child(3),
+#habit-category-div>*:nth-child(3),
+#habit-description-div>*:nth-child(3) {
+  justify-content: right;
 }
 
 footer {
