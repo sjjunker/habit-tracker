@@ -16,26 +16,31 @@ export default function loadLogin(db, habitDatabaseName) {
     });
 
     //Close the modal on click
-    submitButton.addEventListener("click", async () => {
+    submitButton.addEventListener("click", async (event) => {
+        event.preventDefault();
+
         //Login
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
-        isLoggedIn = login(email, password);
 
-        //Listen for adding habits
-        addHabit(db, habitDatabaseName, isLoggedIn);
-
-        //Close the modal
-        modal.style.display = "none";
-
-        //Load and render list of habits
         try {
-            loadHabitList(db, habitDatabaseName);
+            await login(email, password);
+            console.log(isLoggedIn);
+
+            if (isLoggedIn) {
+                //Listen for adding habits
+                addHabit(db, habitDatabaseName, isLoggedIn);
+
+                //Close the modal
+                modal.style.display = "none";
+
+                //Load and render list of habits
+                await loadHabitList(db, habitDatabaseName);
+            }
         } catch (error) {
             console.error("Error:", error);
+            alert("Login Failed");
         }
-
-        return isLoggedIn;
     });
 
     // When the user clicks anywhere outside of the modal, close it
@@ -47,39 +52,31 @@ export default function loadLogin(db, habitDatabaseName) {
 }
 
 //Create a new account
-async function newUser() {
+async function newUser(email, password) {
     const auth = getAuth();
-    createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            // Signed up 
-            const user = userCredential.user;
-            localStorage.setItem("user", user);
-            return true;
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(`${errorCode}: ${errorMessage}`);
-            return false;
-        });
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        localStorage.setItem("user", JSON.stringify(user));
+        isLoggedIn = true;
+    } catch (error) {
+        console.error(`Error creating user: ${error.code} - ${error.message}`);
+    }
 }
 
 //Sign in a user
 async function login(email, password) {
     const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            // Signed in 
-            const user = userCredential.user;
-            localStorage.setItem("user", user);
-            return true;
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(`${errorCode}: ${errorMessage}`);
-            return false;
-        });
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        localStorage.setItem("user", JSON.stringify(user));
+        isLoggedIn = true;
+    } catch (error) {
+        console.error(`Error signing in: ${error.code} - ${error.message}`);
+        isLoggedIn = false; // Ensure isLoggedIn is reset on failure
+        throw error; // Propagate the error for the caller to handle
+    }
 }
 
 //Sign out a user

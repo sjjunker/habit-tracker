@@ -2,7 +2,6 @@ const quotesApi = "https://api.api-ninjas.com/v1/quotes";
 
 export default async function displayQuote() {
     const quote = await getapi();
-    console.log(quote[0]);
 
     //render quote
     const quoteH2 = document.getElementById("inspirational-quote");

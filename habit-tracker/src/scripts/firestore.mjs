@@ -40,7 +40,23 @@ export async function readData(db, collectionName) {
     const querySnapshot = await getDocs(collection(db, collectionName));
     let dataArray = [];
 
-    querySnapshot.forEach((doc) => {
+    for (const doc of querySnapshot.docs) {
+        const completedRef = collection(doc.ref, "completed");
+        const completedSnapshot = await getDocs(completedRef);
+        let completedArray = [];
+
+        if (completedSnapshot.empty) {
+            console.log("no completed events");
+            completedArray = [];
+        } else {
+            completedSnapshot.forEach((date) => {
+                completedArray.push({
+                    date: date.data().date
+                });
+            });
+        }
+
+
         dataArray.push({
             habitId: doc.id,
             habitName: doc.data().habitName,
@@ -49,8 +65,8 @@ export async function readData(db, collectionName) {
             habitGoal: doc.data().habitGoal,
             setReminder: doc.data().setReminder,
             habitDescription: doc.data().habitDescription,
-            events: doc.data().events ?? []
+            completed: completedArray
         });
-    });
+    }
     return dataArray;
 }

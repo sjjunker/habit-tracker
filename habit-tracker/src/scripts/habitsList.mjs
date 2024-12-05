@@ -1,5 +1,6 @@
 import { readData, deleteData } from "./firestore.mjs";
 import updateHabit from "./updateHabits.mjs";
+import setProgressBar from "./progressBar.mjs";
 
 //Get the list of habits
 export default async function loadHabitList(db, habitDatabaseName) {
@@ -14,7 +15,7 @@ function renderHabitsList(db, habitDatabaseName, habits) {
     let idName = 0;
 
     habits.forEach(habit => {
-        console.log(habit);
+        let numCompleted;
         let habitLi = document.createElement("li");
         let habitLiDiv = document.createElement("div");
         let checkBox = document.createElement("input");
@@ -23,6 +24,15 @@ function renderHabitsList(db, habitDatabaseName, habits) {
         let progressBarOutter = document.createElement("div");
         let editButton = document.createElement("button");
         let deleteButton = document.createElement("button");
+
+        //Get number completed goals
+        if (habit.completed.length > 0) {
+            numCompleted = habit.completed.length;
+            console.log(numCompleted);
+        } else {
+            console.log(habit.completed.length);
+            numCompleted = 0;
+        }
 
         //Set attributes
         checkBox.type = "checkbox";
@@ -35,6 +45,7 @@ function renderHabitsList(db, habitDatabaseName, habits) {
         progressBarOutter.id = "progress-bar-outter";
         progressBarOutter.className = "progress-bar-outter-class";
         progressBarOutter.appendChild(progressBarInner);
+        setProgressBar(habit.habitGoal, numCompleted, progressBarInner);
 
         habitDetailLink.innerHTML = habit.habitName;;
         habitDetailLink.href = `/habitDetailView/index.html?habitId=${habit.habitId}&habitName=${habit.habitName}&habitCategory=${habit.habitCategory}&habitDescription=${habit.habitDescription}&habitGoal=${habit.habitGoal}$habitFrequency=${habit.habitFrequency}&setReminder=${habit.setReminder}`;

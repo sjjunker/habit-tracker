@@ -26,7 +26,7 @@ export default function updateHabit(db, collectionName, documentId) {
             habitName: name,
             setReminder: reminder
         }
-        console.log(documentId);
+
         updateData(db, collectionName, documentId, habitProperties);
 
         //Reload habits list
