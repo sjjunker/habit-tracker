@@ -1,4 +1,4 @@
-import { readData } from "./firestore.mjs";
+import { readData, deleteData } from "./firestore.mjs";
 import updateHabit from "./updateHabits.mjs";
 
 //Get the list of habits
@@ -39,6 +39,7 @@ function renderHabitsList(db, habitDatabaseName, habits) {
         habitDetailLink.innerHTML = habit.habitName;;
         habitDetailLink.href = `/habitDetailView/index.html?habitId=${habit.habitId}&habitName=${habit.habitName}&habitCategory=${habit.habitCategory}&habitDescription=${habit.habitDescription}&habitGoal=${habit.habitGoal}$habitFrequency=${habit.habitFrequency}&setReminder=${habit.setReminder}`;
 
+        //Edit event
         editButton.innerHTML = `<img src="../images/edit.svg" alt="edit icon"/>`;
         editButton.id = "edit-button";
         editButton.addEventListener("click", () => {
@@ -59,8 +60,13 @@ function renderHabitsList(db, habitDatabaseName, habits) {
             updateHabit(db, habitDatabaseName, habit.habitId);
         });
 
+        //Delete event
         deleteButton.innerHTML = `<img src="../images/delete.svg" alt="edit icon"/>`;
         deleteButton.id = "delete-button";
+        deleteButton.addEventListener("click", () => {
+            deleteData(db, habitDatabaseName, habit.habitId);
+            loadHabitList(db, habitDatabaseName);
+        });
 
         //Add to li
         habitLiDiv.appendChild(checkBox);
