@@ -13,7 +13,8 @@ export default defineConfig({
         rollupOptions: {
             input: {
                 main: resolve(__dirname, "src/index.html"),
-                habitDetailsView: resolve(__dirname, "src/habitDetailView/index.html")
+                habitDetailsView: resolve(__dirname, "src/habitDetailView/index.html"),
+                calendar: "node_modules/simple-jscalendar/source/jsCalendar.js"
             },
 
         },
