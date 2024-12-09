@@ -14,8 +14,7 @@ export default defineConfig({
             input: {
                 main: resolve(__dirname, "src/index.html"),
                 habitDetailsView: resolve(__dirname, "src/habitDetailView/index.html"),
-                calendar: "node_modules/simple-jscalendar/source/jsCalendar.js",
-                calendarStyling: "node_modules/simple-jscalendar/source/jsCalendar.css"
+                calendar: "node_modules/simple-jscalendar/source/jsCalendar.js"
             },
 
         },

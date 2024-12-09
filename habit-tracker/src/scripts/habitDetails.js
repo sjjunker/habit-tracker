@@ -3,7 +3,7 @@ import { loadHeaderFooter } from "./partials.mjs";
 //import { createCalendar } from "./calendar.mjs";
 import computeStreak from "./computeStreak.mjs";
 import "../styles/style.css";
-import "../../node_modules/simple-jscalendar/source/jsCalendar.css";
+import "../style/jsCalendar.css";
 import "../../node_modules/simple-jscalendar/source/jsCalendar.js";
 import "/images/favicon.ico?url";
 
