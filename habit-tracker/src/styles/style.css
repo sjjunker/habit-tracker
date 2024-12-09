@@ -269,11 +269,7 @@ main {
   font-family: cursive;
 }
 
-/*Calendar styling*/
-#calendar {
-  width: 95%;
-  margin: auto;
-}
+
 
 /* Modal Styles */
 #login-modal,
@@ -386,9 +382,9 @@ li div {
   justify-content: left;
 }
 
-#title>*:nth-child(3),
-#habit-category-div>*:nth-child(3),
-#habit-description-div>*:nth-child(3) {
+#title>*:nth-child(2),
+#habit-category-div>*:nth-child(2),
+#habit-description-div>*:nth-child(2) {
   justify-content: right;
 }
 
