@@ -1,13 +1,14 @@
-import { doc, getDoc } from "firebase/firestore";
 import getParam from "./getHabit.mjs";
 import { loadHeaderFooter } from "./partials.mjs";
-import { createCalendar } from "./calendar.mjs";
+//import { createCalendar } from "./calendar.mjs";
 import computeStreak from "./computeStreak.mjs";
 import "../styles/style.css";
-import "../../node_modules/jcalendar.js/dist/calendar.js.css";
+import "../../node_modules/simple-jscalendar/source/jsCalendar.css";
+import "../../node_modules/simple-jscalendar/source/jsCalendar.js";
+import "/images/favicon.ico?url";
 
 loadHeaderFooter();
-createCalendar();
+//createCalendar();
 
 const HABIT_NAME = getParam("habitName");
 const HABIT_CATEGORY = getParam("habitCategory");
