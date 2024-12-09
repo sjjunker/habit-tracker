@@ -392,6 +392,10 @@ li div {
   justify-content: right;
 }
 
+#habit-category-text {
+  text-transform: capitalize;
+}
+
 footer {
   display: flex;
   justify-content: space-around;

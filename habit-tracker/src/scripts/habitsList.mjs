@@ -49,8 +49,10 @@ async function renderHabitsList(db, habitDatabaseName, habits) {
         progressBarOutter.appendChild(progressBarInner);
         setProgressBar(habit.habitGoal, numCompleted, progressBarInner);
 
-        habitDetailLink.innerHTML = habit.habitName;;
-        habitDetailLink.href = `/habitDetailView/index.html?habitId=${habit.habitId}&habitName=${habit.habitName}&habitCategory=${habit.habitCategory}&habitDescription=${habit.habitDescription}&habitGoal=${habit.habitGoal}$habitFrequency=${habit.habitFrequency}&setReminder=${habit.setReminder}&completed=${habit.completed ? habit.completed : []}`;
+        habitDetailLink.innerHTML = habit.habitName;
+        let mappedArray = habit.completed.map(day => day.toDate());
+        let completedArray = JSON.stringify(mappedArray);
+        habitDetailLink.href = `/habitDetailView/index.html?habitId=${habit.habitId}&habitName=${habit.habitName}&habitCategory=${habit.habitCategory}&habitDescription=${habit.habitDescription}&habitGoal=${habit.habitGoal}$habitFrequency=${habit.habitFrequency}&setReminder=${habit.setReminder}&completed=${completedArray}`;
 
         //Edit event
         editButton.innerHTML = `<img src="../images/edit.svg" alt="edit icon"/>`;

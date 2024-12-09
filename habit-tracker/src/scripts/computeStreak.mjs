@@ -1,24 +1,36 @@
-export default function computeStreak(completedList) {
+
+
+export default function computeStreak(dateString) {
     let streakNum = 0;
-    let maxCount = 0;
+    let maxCount = 1;
     const MILI_IN_DAY = 86400000;
+    let completedList = dateString ? dateString : [];
 
-    completedList.forEach(day, index => {
-        //check to make sure there is a next day
-        if (index + 1 < completedList.length) {
 
-            //Check to see if the dates are 24hrs apart
-            if (day + MILI_IN_DAY == completedList[index]) {
-                maxCount += 1;
-            } else {
-                //Set streak number if it is less
-                if (maxCount > streakNum) {
-                    streakNum = maxCount;
-                    maxCount = 0;
+    if (completedList.length > 0) {
+
+        completedList.forEach((completedDay, index) => {
+            //check to make sure there is a next day
+            if (index + 1 < completedList.length) {
+
+                //Check to see if the dates are 24hrs apart
+                let firstDay = new Date(completedList[index + 1]).getTime();
+                let nextDay = new Date(completedDay).getTime();
+                if (nextDay - firstDay <= MILI_IN_DAY + 1000) {
+                    maxCount += 1;
+                } else {
+                    //Set streak number if it is less
+                    if (maxCount > streakNum) {
+                        streakNum = maxCount;
+                        maxCount = 1;
+                    }
                 }
             }
-        }
-    });
+        });
 
-    return streakNum;
+        streakNum = Math.max(streakNum, maxCount);
+        return streakNum;
+    } else {
+        return 0;
+    }
 }
