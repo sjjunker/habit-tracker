@@ -1,21 +1,21 @@
-import { readData, deleteData } from "./firestore.mjs";
+import { readData, deleteData, readCompleted } from "./firestore.mjs";
 import updateHabit from "./updateHabits.mjs";
 import setProgressBar from "./progressBar.mjs";
+import { setIsComplete } from "./habitCompletion.mjs";
+import { addRemoveToCompletionArray } from "./habitCompletion.mjs";
 
 //Get the list of habits
 export default async function loadHabitList(db, habitDatabaseName) {
     const habitData = await readData(db, habitDatabaseName);
-    renderHabitsList(db, habitDatabaseName, habitData);
+    await renderHabitsList(db, habitDatabaseName, habitData);
 }
 
 //Render the list to the HTML
-function renderHabitsList(db, habitDatabaseName, habits) {
+async function renderHabitsList(db, habitDatabaseName, habits) {
     const habitsList = document.getElementById("habits-list");
     habitsList.innerHTML = "";
-    let idName = 0;
 
-    habits.forEach(habit => {
-        let numCompleted;
+    for await (let habit of habits) {
         let habitLi = document.createElement("li");
         let habitLiDiv = document.createElement("div");
         let checkBox = document.createElement("input");
@@ -26,19 +26,21 @@ function renderHabitsList(db, habitDatabaseName, habits) {
         let deleteButton = document.createElement("button");
 
         //Get number completed goals
-        if (habit.completed.length > 0) {
-            numCompleted = habit.completed.length;
-            console.log(numCompleted);
-        } else {
-            console.log(habit.completed.length);
-            numCompleted = 0;
-        }
+        const numCompleted = await readCompleted(db, habitDatabaseName, habit);
 
         //Set attributes
         checkBox.type = "checkbox";
-        checkBox.name = `isCompleted${idName}`;
-        checkBox.id = `isCompleted${idName}`;
+        checkBox.name = `isCompleted${habit.habitId}`;
+        checkBox.id = `isCompleted${habit.habitId}`;
         checkBox.className = "checkboxClass";
+        checkBox.checked = setIsComplete(db, habitDatabaseName, habit);
+
+        //Set event listener for checkbox
+        checkBox.addEventListener("change", async () => {
+            await addRemoveToCompletionArray(db, habitDatabaseName, habit);
+            const eventNumCompleted = await readCompleted(db, habitDatabaseName, habit);
+            setProgressBar(habit.habitGoal, eventNumCompleted, progressBarInner);
+        });
 
         progressBarInner.id = "progress-bar-inner";
         progressBarInner.className = "progress-bar-inner-class";
@@ -74,8 +76,8 @@ function renderHabitsList(db, habitDatabaseName, habits) {
         //Delete event
         deleteButton.innerHTML = `<img src="../images/delete.svg" alt="edit icon"/>`;
         deleteButton.id = "delete-button";
-        deleteButton.addEventListener("click", () => {
-            deleteData(db, habitDatabaseName, habit.habitId);
+        deleteButton.addEventListener("click", async () => {
+            await deleteData(db, habitDatabaseName, habit.habitId);
             loadHabitList(db, habitDatabaseName);
         });
 
@@ -89,8 +91,5 @@ function renderHabitsList(db, habitDatabaseName, habits) {
 
         //Add to ul
         habitsList.appendChild(habitLi);
-
-        //increment habit id
-        idName += 1;
-    });
+    }
 }

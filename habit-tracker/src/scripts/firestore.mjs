@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import { doc, collection, addDoc, getDocs, deleteDoc, setDoc } from "firebase/firestore";
+import { getFirestore, Timestamp } from 'firebase/firestore';
+import { doc, collection, addDoc, getDocs, deleteDoc, setDoc, updateDoc, getDoc } from "firebase/firestore";
 
 export function startFirestore() {
     const app = initializeApp({
@@ -19,7 +19,6 @@ export function startFirestore() {
 export async function addData(db, collectionName, documentProperties) {
     try {
         const docRef = await addDoc(collection(db, collectionName), documentProperties);
-        console.log("Document written with ID: ", docRef.id);
     } catch (e) {
         console.error("Error adding document: ", e);
     }
@@ -40,23 +39,7 @@ export async function readData(db, collectionName) {
     const querySnapshot = await getDocs(collection(db, collectionName));
     let dataArray = [];
 
-    for (const doc of querySnapshot.docs) {
-        const completedRef = collection(doc.ref, "completed");
-        const completedSnapshot = await getDocs(completedRef);
-        let completedArray = [];
-
-        if (completedSnapshot.empty) {
-            console.log("no completed events");
-            completedArray = [];
-        } else {
-            completedSnapshot.forEach((date) => {
-                completedArray.push({
-                    date: date.data().date
-                });
-            });
-        }
-
-
+    querySnapshot.forEach(doc => {
         dataArray.push({
             habitId: doc.id,
             habitName: doc.data().habitName,
@@ -65,8 +48,103 @@ export async function readData(db, collectionName) {
             habitGoal: doc.data().habitGoal,
             setReminder: doc.data().setReminder,
             habitDescription: doc.data().habitDescription,
-            completed: completedArray
+            completed: doc.data().completed
         });
-    }
+    });
+
     return dataArray;
+}
+
+//Read habit completed array length
+export async function readCompleted(db, collectionName, habit) {
+    try {
+        // Get the document reference
+        const habitRef = doc(db, collectionName, habit.habitId);
+
+        // Retrieve the document snapshot
+        const habitSnapshot = await getDoc(habitRef);
+
+        if (habitSnapshot.exists()) {
+            // Access the data and return the completed array length
+            const habitData = habitSnapshot.data();
+            return habitData.completed ? habitData.completed.length : 0;
+        } else {
+            console.error(`Habit with ID ${habit.habitId} does not exist.`);
+            return 0;
+        }
+    } catch (error) {
+        console.error("Error reading completed array:", error);
+        return 0;
+    }
+}
+
+//Add date to completion array
+export async function addDate(db, collectionName, habit, habitCompletionDate) {
+    try {
+        // Validate input
+        if (!(habitCompletionDate instanceof Timestamp)) {
+            throw new Error("Invalid habitCompletionDate. Must be a Firestore Timestamp.");
+        }
+
+        // Get the habit reference
+        const habitRef = doc(db, collectionName, habit.habitId);
+
+        // Fetch the latest habit data
+        const habitSnapshot = await getDoc(habitRef);
+        if (!habitSnapshot.exists()) {
+            console.error(`Habit with ID ${habit.habitId} not found.`);
+            return;
+        }
+
+        const habitData = habitSnapshot.data();
+        const habitCompletionArray = habitData.completed || [];
+
+        // Prevent duplicates
+        if (habitCompletionArray.some(date => date.isEqual(habitCompletionDate))) {
+            console.log("Date already exists.");
+        } else {
+            // Add the new date
+            await updateDoc(habitRef, {
+                completed: [...habitCompletionArray, habitCompletionDate],
+            });
+
+            console.log(`Date added.`);
+        }
+    } catch (err) {
+        console.error("Error adding date:", err);
+    }
+}
+
+//Remove date from completion array
+export async function removeDate(db, collectionName, habit, habitUncompletedDate) {
+    try {
+        // Validate input
+        if (!(habitUncompletedDate instanceof Timestamp)) {
+            throw new Error("Invalid habitUncompletedDate. Must be a Firestore Timestamp.");
+        }
+
+        // Get the habit reference
+        const habitRef = doc(db, collectionName, habit.habitId);
+
+        // Fetch the latest habit data
+        const habitSnapshot = await getDoc(habitRef);
+        if (!habitSnapshot.exists()) {
+            console.error(`Habit with ID ${habit.habitId} not found.`);
+        } else {
+            const habitData = habitSnapshot.data();
+            const habitCompletionArray = habitData.completed || [];
+
+            // Filter out the date to remove
+            const updatedCompletionArray = habitCompletionArray.filter(
+                (elem) => !elem.isEqual(habitUncompletedDate)
+            );
+
+            // Update Firestore document
+            await updateDoc(habitRef, { completed: updatedCompletionArray });
+
+            console.log(`Date removed.`);
+        }
+    } catch (error) {
+        console.error("Error removing date:", error);
+    }
 }

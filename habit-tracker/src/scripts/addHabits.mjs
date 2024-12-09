@@ -1,7 +1,7 @@
 import { addData } from "./firestore.mjs";
 import loadHabitList from "./habitsList.mjs";
 
-export default function addHabit(db, collectionName, isLoggedIn) {
+export default async function addHabit(db, collectionName, isLoggedIn) {
     var modal = document.getElementById("add-habit-modal");
     var addButton = document.getElementById("add-habit-button");
     var submitButton = document.getElementById("add-habit-submit");
@@ -15,7 +15,6 @@ export default function addHabit(db, collectionName, isLoggedIn) {
             document.getElementById("habitName").value = null;
             document.getElementById("habitCategory").value = null;
             document.getElementById("habitGoal").value = null;
-            document.getElementById("habitFrequency").value = null;
             document.getElementById("habitDescription").value = null;
             document.getElementById("setReminder").value = null;
         }
@@ -24,7 +23,7 @@ export default function addHabit(db, collectionName, isLoggedIn) {
         submitButton.addEventListener("click", setData);
     });
 
-    function setData() {
+    async function setData() {
         //Get form values
         const name = document.getElementById("habitName").value;
         const category = document.getElementById("habitCategory").value;
@@ -43,7 +42,7 @@ export default function addHabit(db, collectionName, isLoggedIn) {
             setReminder: reminder
         }
 
-        addData(db, collectionName, habitProperties);
+        await addData(db, collectionName, habitProperties);
 
         //Reload habits list
         document.getElementById("habits-list").innerHTML = "";
