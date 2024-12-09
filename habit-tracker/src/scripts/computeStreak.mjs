@@ -16,7 +16,8 @@ export default function computeStreak(dateString) {
                 //Check to see if the dates are 24hrs apart
                 let firstDay = new Date(completedList[index + 1]).getTime();
                 let nextDay = new Date(completedDay).getTime();
-                if (nextDay - firstDay <= MILI_IN_DAY + 1000) {
+                let timeInterval = firstDay - nextDay;
+                if (timeInterval <= MILI_IN_DAY + 100000 && timeInterval >= MILI_IN_DAY - 100000) {
                     maxCount += 1;
                 } else {
                     //Set streak number if it is less
