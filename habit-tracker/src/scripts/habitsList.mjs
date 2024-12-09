@@ -50,7 +50,7 @@ async function renderHabitsList(db, habitDatabaseName, habits) {
         setProgressBar(habit.habitGoal, numCompleted, progressBarInner);
 
         habitDetailLink.innerHTML = habit.habitName;;
-        habitDetailLink.href = `/habitDetailView/index.html?habitId=${habit.habitId}&habitName=${habit.habitName}&habitCategory=${habit.habitCategory}&habitDescription=${habit.habitDescription}&habitGoal=${habit.habitGoal}$habitFrequency=${habit.habitFrequency}&setReminder=${habit.setReminder}`;
+        habitDetailLink.href = `/habitDetailView/index.html?habitId=${habit.habitId}&habitName=${habit.habitName}&habitCategory=${habit.habitCategory}&habitDescription=${habit.habitDescription}&habitGoal=${habit.habitGoal}$habitFrequency=${habit.habitFrequency}&setReminder=${habit.setReminder}&completed=${habit.completed ? habit.completed : []}`;
 
         //Edit event
         editButton.innerHTML = `<img src="../images/edit.svg" alt="edit icon"/>`;
