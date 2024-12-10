@@ -30,6 +30,11 @@ h1 {
   font-family: var(--heading-fonts);
 }
 
+#habit-name {
+  margin-left: 0;
+  margin-bottom: 0;
+}
+
 #app {
   max-width: 1280px;
   margin: 0 auto;
@@ -369,52 +374,45 @@ li div {
 #title,
 #habit-category-div,
 #habit-description-div {
-  display: grid;
-  grid-template-columns: 4fr 1fr 1fr;
-  width: 90vw;
+  display: flex;
+  width: 94vw;
   margin: 0 auto;
   align-items: center;
 }
 
-#title>*:nth-child(0),
-#habit-category-div>*:nth-child(0),
-#habit-description-div>*:nth-child(0) {
-  justify-content: left;
+#habit-description-div {
+  background-color: var(--tertiary-color);
+  color: var(--secondary-color);
+  border-radius: .5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-shadow: .5rem .5rem 1rem;
 }
 
-#title>*:nth-child(2),
-#habit-category-div>*:nth-child(2),
-#habit-description-div>*:nth-child(2) {
-  justify-content: right;
+#habit-category-div {
+  display: flex;
+  justify-content: space-between;
 }
 
 #habit-category-text {
   text-transform: capitalize;
 }
 
-footer {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  background: var(--tertiary-color);
-  position: fixed;
-  color: var(--secondary-color);
-  width: 100%;
-  bottom: 0;
-  height: 6vh;
+#streak-number {
+  font-weight: bolder;
+  font-size: x-large;
 }
-
 
 /*JS calendar custom styling*/
 #calendar table {
   background-color: var(--tertiary-color);
   color: var(--secondary-color);
   margin: 0 auto;
-  margin-top: 3rem;
+  margin-top: 2rem;
   width: fit-content;
   height: fit-content;
-  border-radius: 1rem;
   box-shadow: .5rem .5rem 1rem;
+  border-radius: 1rem;
 }
 
 #calendar thead {
@@ -428,7 +426,7 @@ footer {
 
 #calendar thead .jsCalendar-week-days th,
 #calendar tbody td {
-  width: 10vw;
+  width: 13vw;
 }
 
 /* Orange */
@@ -456,4 +454,16 @@ footer {
 #calendar tbody td:hover {
   background-color: var(--secondary-color);
   color: white;
+}
+
+footer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: var(--tertiary-color);
+  position: fixed;
+  color: var(--secondary-color);
+  width: 100%;
+  bottom: 0;
+  height: 6vh;
 }
