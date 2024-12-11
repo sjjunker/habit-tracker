@@ -429,6 +429,12 @@ li div {
   width: 13vw;
 }
 
+#calendar tbody td.jsCalendar-selected {
+  content: url("/images/checkmark.svg");
+  background-color: var(--tertiary-color);
+  border: none;
+}
+
 /* Orange */
 .jsCalendar.my-orange tbody td.jsCalendar-current {
   background-color: var(--primary-color);

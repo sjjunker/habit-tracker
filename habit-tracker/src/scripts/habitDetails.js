@@ -1,9 +1,9 @@
 import getParam from "./getHabit.mjs";
 import { loadHeaderFooter } from "./partials.mjs";
 import computeStreak from "./computeStreak.mjs";
+import { showCalEvents } from "./calendar.mjs";
 import "../styles/style.css";
-import "../../node_modules/simple-jscalendar/source/jsCalendar.css";
-import "../../node_modules/simple-jscalendar/source/jsCalendar.js";
+import "../styles/jsCalendar.css";
 import "/images/favicon.ico";
 
 loadHeaderFooter();
@@ -17,6 +17,7 @@ const SET_REMINDER = getParam("setReminder");
 const COMPLETED = getParam("completed");
 
 renderHabitDetails();
+showCalEvents(COMPLETED);
 
 function renderHabitDetails() {
     let title = document.getElementById("habit-name");
