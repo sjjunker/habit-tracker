@@ -26,7 +26,7 @@ async function renderHabitsList(db, habitDatabaseName, habits) {
         let deleteButton = document.createElement("button");
 
         //Get number completed goals
-        const numCompleted = await readCompleted(db, habitDatabaseName, habit);
+        const numCompleted = await readCompleted(db, habitDatabaseName, habit.habitId);
 
         //Set attributes
         checkBox.type = "checkbox";
@@ -38,7 +38,7 @@ async function renderHabitsList(db, habitDatabaseName, habits) {
         //Set event listener for checkbox
         checkBox.addEventListener("change", async () => {
             await addRemoveToCompletionArray(db, habitDatabaseName, habit);
-            const eventNumCompleted = await readCompleted(db, habitDatabaseName, habit);
+            const eventNumCompleted = await readCompleted(db, habitDatabaseName, habit.habitId);
             setProgressBar(habit.habitGoal, eventNumCompleted, progressBarInner);
         });
 

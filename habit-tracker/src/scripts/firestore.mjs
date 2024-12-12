@@ -56,10 +56,10 @@ export async function readData(db, collectionName) {
 }
 
 //Read habit completed array length
-export async function readCompleted(db, collectionName, habit) {
+export async function readCompleted(db, collectionName, habitId) {
     try {
         // Get the document reference
-        const habitRef = doc(db, collectionName, habit.habitId);
+        const habitRef = doc(db, collectionName, habitId);
 
         // Retrieve the document snapshot
         const habitSnapshot = await getDoc(habitRef);
@@ -69,7 +69,7 @@ export async function readCompleted(db, collectionName, habit) {
             const habitData = habitSnapshot.data();
             return habitData.completed ? habitData.completed.length : 0;
         } else {
-            console.error(`Habit with ID ${habit.habitId} does not exist.`);
+            console.error(`Habit with ID ${habitId} does not exist.`);
             return 0;
         }
     } catch (error) {
@@ -79,7 +79,7 @@ export async function readCompleted(db, collectionName, habit) {
 }
 
 //Add date to completion array
-export async function addDate(db, collectionName, habit, habitCompletionDate) {
+export async function addDate(db, collectionName, habitId, habitCompletionDate) {
     try {
         // Validate input
         if (!(habitCompletionDate instanceof Timestamp)) {
@@ -87,12 +87,12 @@ export async function addDate(db, collectionName, habit, habitCompletionDate) {
         }
 
         // Get the habit reference
-        const habitRef = doc(db, collectionName, habit.habitId);
+        const habitRef = doc(db, collectionName, habitId);
 
         // Fetch the latest habit data
         const habitSnapshot = await getDoc(habitRef);
         if (!habitSnapshot.exists()) {
-            console.error(`Habit with ID ${habit.habitId} not found.`);
+            console.error(`Habit with ID ${habitId} not found.`);
             return;
         }
 
@@ -116,7 +116,7 @@ export async function addDate(db, collectionName, habit, habitCompletionDate) {
 }
 
 //Remove date from completion array
-export async function removeDate(db, collectionName, habit, habitUncompletedDate) {
+export async function removeDate(db, collectionName, habitId, habitUncompletedDate) {
     try {
         // Validate input
         if (!(habitUncompletedDate instanceof Timestamp)) {
@@ -124,12 +124,12 @@ export async function removeDate(db, collectionName, habit, habitUncompletedDate
         }
 
         // Get the habit reference
-        const habitRef = doc(db, collectionName, habit.habitId);
+        const habitRef = doc(db, collectionName, habitId);
 
         // Fetch the latest habit data
         const habitSnapshot = await getDoc(habitRef);
         if (!habitSnapshot.exists()) {
-            console.error(`Habit with ID ${habit.habitId} not found.`);
+            console.error(`Habit with ID ${habitId} not found.`);
         } else {
             const habitData = habitSnapshot.data();
             const habitCompletionArray = habitData.completed || [];
