@@ -1,7 +1,8 @@
 import { jsCalendar } from "./jsCalendar.mjs";
-import { addDate, removeDate, readCompleted } from "./firestore.mjs";
+import { addDate, removeDate } from "./firestore.mjs";
 import { Timestamp } from "firebase/firestore";
 import computeStreak from "./computeStreak.mjs";
+import { readCompletedArray } from "./firestore.mjs";
 
 let calendarDiv = document.getElementById("calendar");
 let calendar = jsCalendar.new(calendarDiv);
@@ -19,24 +20,29 @@ export function showCalEvents(completedDates) {
     calendar.select(dateArray);
 }
 
-export function setEventListeners(db, collection, habitId) {
+export async function setEventListeners(db, collection, habitId) {
     let streakElement = document.getElementById("streak-number");
+    let completed;
 
-    calendar.onDateClick(function (event, date) {
+    calendar.onDateClick(async function (event, date) {
         let newTimestamp = Timestamp.fromDate(date);
 
         if (!calendar.isSelected(date)) {
             //If the date is not yet selected then select, and add to firestore
             calendar.select(date);
-            addDate(db, collection, habitId, newTimestamp);
+            await addDate(db, collection, habitId, newTimestamp);
+            completed = await readCompletedArray(db, collection, habitId);
         } else {
             //If the date is already selected, unselect it and remove from firestore
             calendar.unselect(date);
-            removeDate(db, collection, habitId, newTimestamp);
+            await removeDate(db, collection, habitId, newTimestamp);
+            completed = await readCompletedArray(db, collection, habitId);
         }
 
+        //set the completed array to an array of strings
+        let mappedArray = completed.map(day => day.toDate());
+
         //Reset the streak number
-        let streak = readCompleted(db, collection, habitId);
-        streakElement.innerHTML = computeStreak(streak);
+        streakElement.innerHTML = computeStreak(mappedArray);
     });
 }

@@ -1,4 +1,4 @@
-import { addDate, removeDate, readCompleted } from "./firestore.mjs";
+import { addDate, removeDate, readComletedLength } from "./firestore.mjs";
 import { Timestamp } from 'firebase/firestore';
 
 export async function setIsComplete(db, collectionName, habit) {
@@ -6,7 +6,7 @@ export async function setIsComplete(db, collectionName, habit) {
     let todaysDate = new Date();
     todaysDate.setHours(0, 0, 0, 0);
     const current_timestamp = Timestamp.fromDate(todaysDate);
-    let completionLength = await readCompleted(db, collectionName, habit).habitId;
+    let completionLength = await readComletedLength(db, collectionName, habit.habitId);
 
     //Check if the habit completed collection has today's date
     if (completionLength > 0) {

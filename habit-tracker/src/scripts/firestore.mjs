@@ -56,7 +56,7 @@ export async function readData(db, collectionName) {
 }
 
 //Read habit completed array length
-export async function readCompleted(db, collectionName, habitId) {
+export async function readComletedLength(db, collectionName, habitId) {
     try {
         // Get the document reference
         const habitRef = doc(db, collectionName, habitId);
@@ -75,6 +75,28 @@ export async function readCompleted(db, collectionName, habitId) {
     } catch (error) {
         console.error("Error reading completed array:", error);
         return 0;
+    }
+}
+
+export async function readCompletedArray(db, collectionName, habitId) {
+    try {
+        // Get the document reference
+        const habitRef = doc(db, collectionName, habitId);
+
+        // Retrieve the document snapshot
+        const habitSnapshot = await getDoc(habitRef);
+
+        if (habitSnapshot.exists()) {
+            // Access the data and return the completed array length
+            const habitData = habitSnapshot.data();
+            return habitData.completed ? habitData.completed : [];
+        } else {
+            console.error(`Habit with ID ${habitId} does not exist.`);
+            return [];
+        }
+    } catch (error) {
+        console.error("Error reading completed array:", error);
+        return [];
     }
 }
 

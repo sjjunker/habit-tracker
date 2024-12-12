@@ -1,4 +1,4 @@
-import { readData, deleteData, readCompleted } from "./firestore.mjs";
+import { readData, deleteData, readComletedLength } from "./firestore.mjs";
 import updateHabit from "./updateHabits.mjs";
 import setProgressBar from "./progressBar.mjs";
 import { setIsComplete } from "./habitCompletion.mjs";
@@ -26,7 +26,7 @@ async function renderHabitsList(db, habitDatabaseName, habits) {
         let deleteButton = document.createElement("button");
 
         //Get number completed goals
-        const numCompleted = await readCompleted(db, habitDatabaseName, habit.habitId);
+        const numCompleted = await readComletedLength(db, habitDatabaseName, habit.habitId);
 
         //Set attributes
         checkBox.type = "checkbox";
@@ -38,7 +38,7 @@ async function renderHabitsList(db, habitDatabaseName, habits) {
         //Set event listener for checkbox
         checkBox.addEventListener("change", async () => {
             await addRemoveToCompletionArray(db, habitDatabaseName, habit);
-            const eventNumCompleted = await readCompleted(db, habitDatabaseName, habit.habitId);
+            const eventNumCompleted = await readComletedLength(db, habitDatabaseName, habit.habitId);
             setProgressBar(habit.habitGoal, eventNumCompleted, progressBarInner);
         });
 

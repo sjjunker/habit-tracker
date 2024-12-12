@@ -5,9 +5,11 @@ export default function computeStreak(dateString) {
     let maxCount = 1;
     const MILI_IN_DAY = 86400000;
     let completedList = dateString ? dateString : [];
+    console.log(typeof dateString[0]);
 
 
     if (completedList.length > 0) {
+        console.log("in if");
 
         completedList.forEach((completedDay, index) => {
             //check to make sure there is a next day
@@ -15,7 +17,9 @@ export default function computeStreak(dateString) {
 
                 //Check to see if the dates are 24hrs apart
                 let firstDay = new Date(completedList[index + 1]).getTime();
+                console.log(firstDay);
                 let nextDay = new Date(completedDay).getTime();
+                console.log(nextDay);
                 let timeInterval = firstDay - nextDay;
                 if (timeInterval <= MILI_IN_DAY + 100000 && timeInterval >= MILI_IN_DAY - 100000) {
                     maxCount += 1;
