@@ -9,7 +9,6 @@
 
   --heading-fonts: montserrat sans-serif;
   --body-fonts: lato static;
-  font-family: var(--body-fonts);
   line-height: 1.5;
 
   color: white;
@@ -24,10 +23,13 @@
   box-sizing: border-box;
 }
 
+body {
+  font-family: var(--body-fonts);
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
-  font-family: var(--heading-fonts);
 }
 
 #habit-name {
@@ -71,10 +73,16 @@ h4,
 h5,
 h6 {
   margin: 1rem;
+  font-family: var(--heading-fonts);
 }
 
 input[type="checkbox"] {
   accent-color: var(--primary-color);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus {
+  outline: 2px solid var(--primary-color);
 }
 
 #logo {
@@ -461,6 +469,37 @@ li div {
   background-color: var(--secondary-color);
   color: white;
 }
+
+/*Settings Styling*/
+#user-settings,
+#profile-settings {
+  display: flex;
+  flex-direction: column;
+  margin: 1.5rem;
+  background-color: var(--tertiary-color);
+  border-radius: 1rem;
+  color: var(--secondary-color);
+  box-shadow: .5rem .5rem 1rem;
+}
+
+#user-settings input,
+#profile-settings input,
+#profile-settings label {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+#profile-settings input {
+  max-width: 450px;
+  margin-bottom: 1rem;
+}
+
+#user-settings div {
+  margin-bottom: 1rem;
+  padding-top: 1rem;
+}
+
+
 
 footer {
   display: flex;
