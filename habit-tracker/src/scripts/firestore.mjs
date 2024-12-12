@@ -56,7 +56,7 @@ export async function readData(db, collectionName) {
 }
 
 //Read habit completed array length
-export async function readComletedLength(db, collectionName, habitId) {
+export async function readCompletedLength(db, collectionName, habitId) {
     try {
         // Get the document reference
         const habitRef = doc(db, collectionName, habitId);

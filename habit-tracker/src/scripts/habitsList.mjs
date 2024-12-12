@@ -1,4 +1,4 @@
-import { readData, deleteData, readComletedLength } from "./firestore.mjs";
+import { readData, deleteData, readCompletedLength } from "./firestore.mjs";
 import updateHabit from "./updateHabits.mjs";
 import setProgressBar from "./progressBar.mjs";
 import { setIsComplete } from "./habitCompletion.mjs";
@@ -18,7 +18,7 @@ async function renderHabitsList(db, habitDatabaseName, habits) {
     for await (let habit of habits) {
         let habitLi = document.createElement("li");
         let habitLiDiv = document.createElement("div");
-        let checkBox = document.createElement("input");
+        let myCheckbox = document.createElement("input");
         let habitDetailLink = document.createElement("a");
         let progressBarInner = document.createElement("div");
         let progressBarOutter = document.createElement("div");
@@ -26,19 +26,19 @@ async function renderHabitsList(db, habitDatabaseName, habits) {
         let deleteButton = document.createElement("button");
 
         //Get number completed goals
-        const numCompleted = await readComletedLength(db, habitDatabaseName, habit.habitId);
+        const numCompleted = await readCompletedLength(db, habitDatabaseName, habit.habitId);
 
         //Set attributes
-        checkBox.type = "checkbox";
-        checkBox.name = `isCompleted${habit.habitId}`;
-        checkBox.id = `isCompleted${habit.habitId}`;
-        checkBox.className = "checkboxClass";
-        checkBox.checked = setIsComplete(db, habitDatabaseName, habit);
+        myCheckbox.type = "checkbox";
+        myCheckbox.name = `isCompleted${habit.habitId}`;
+        myCheckbox.id = `isCompleted${habit.habitId}`;
+        myCheckbox.className = "checkboxClass";
+        myCheckbox.checked = await setIsComplete(db, habitDatabaseName, habit);
 
         //Set event listener for checkbox
-        checkBox.addEventListener("change", async () => {
+        myCheckbox.addEventListener("change", async () => {
             await addRemoveToCompletionArray(db, habitDatabaseName, habit);
-            const eventNumCompleted = await readComletedLength(db, habitDatabaseName, habit.habitId);
+            const eventNumCompleted = await readCompletedLength(db, habitDatabaseName, habit.habitId);
             setProgressBar(habit.habitGoal, eventNumCompleted, progressBarInner);
         });
 
@@ -84,7 +84,7 @@ async function renderHabitsList(db, habitDatabaseName, habits) {
         });
 
         //Add to li
-        habitLiDiv.appendChild(checkBox);
+        habitLiDiv.appendChild(myCheckbox);
         habitLiDiv.appendChild(habitDetailLink);
         habitLiDiv.appendChild(progressBarOutter);
         habitLiDiv.appendChild(editButton);

@@ -1,7 +1,13 @@
 export default function setProgressBar(goal, numCompleted, progressBar) {
-    console.log(progressBar.style.width);
-
     const percentComplete = numCompleted / goal * 100;
 
-    progressBar.style.width = `${percentComplete}%`;
+    if (percentComplete >= 100) {
+        //If completed
+        progressBar.style.width = `100%`;
+        progressBar.classList.add("habitFinished");
+    } else if (percentComplete < 100) {
+        //If not completed
+        progressBar.style.width = `${percentComplete}%`;
+        progressBar.classList.remove("habitFinished");
+    }
 }
