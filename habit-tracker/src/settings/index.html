@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <meta name="author" content="Sandi Junker" />
+    <meta name="description" content="User settings of the habit tracker app." />
+</head>
+
+<body>
+    <header id="main-header"></header>
+    <main>
+        <div id="title">
+            <h1 id="settings-h1">Settings</h1>
+        </div>
+
+        <div id="user-settings">
+            <input type="checkbox" name="dark-mode" id="dark-mode">
+            <label for="dark-mode">Dark Mode</label>
+
+            <input type="checkbox" name="notifications" id="notifications">
+            <label for="notifications">Notifications</label>
+
+            <input type="checkbox" name="quotes" id="quotes">
+            <label for="quotes">Motivational Quotes</label>
+        </div>
+
+        <form id="profile-settings">
+            <legend>Profile</legend>
+
+            <label for="first-name">First Name</label>
+            <input type="text" name="first-name" id="first-name">
+
+            <label for="last-name">Last Name</label>
+            <input type="text" name="last-name" id="last-name">
+
+            <label for="email">First Name</label>
+            <input type="email" name="email" id="email">
+
+            <label for="user-name">User Name</label>
+            <input type="text" name="user-name" id="user-name">
+
+            <label for="password">Password</label>
+            <input type="text" name="password" id="password">
+        </form>
+
+    </main>
+    <footer id="main-footer"></footer>
+
+    <script src="../scripts/settings.js" type="module"></script>
+</body>
+
+</html>
