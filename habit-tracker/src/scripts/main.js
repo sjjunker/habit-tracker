@@ -7,23 +7,19 @@ import { setDefaultSettings } from "./updateSettings.mjs";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
+await loadHeaderFooter();
+
 const app = startFirestore();
 const db = getFirestore(app);
-const auth = getAuth(app);
-console.log(auth);
 const habitDatabaseName = "habits";
 
-loadHeaderFooter();
 setDefaultSettings();
 
-window.addEventListener("load", () => {
-  setTimeout(async () => {
-    loadLogin(db, habitDatabaseName);
-    if (localStorage.getItem("quotes")) {
-      await displayQuote();
-    }
-  }, 500);
-});
+if (localStorage.getItem("quotes")) {
+  await displayQuote();
+}
+
+await loadLogin(db, habitDatabaseName);
 
 
 

@@ -1,6 +1,5 @@
 export async function renderWithTemplate(template, parentElement, data, callback, position = "afterbegin", clear = true) {
     if (clear) {
-
         parentElement.innerHTML = "";
     }
     const htmlString = await template(data);
@@ -21,11 +20,19 @@ function loadTemplate(path) {
 }
 
 //header and footer
-export function loadHeaderFooter() {
+export async function loadHeaderFooter() {
     const headerTemplateFn = loadTemplate("/partials/header.html");
     const footerTemplateFn = loadTemplate("/partials/footer.html");
+    const loginTemplateFn = loadTemplate("/partials/login.html");
+    const signupTemplateFn = loadTemplate("/partials/signup.html");
+
     const parentElH = document.querySelector('#main-header');
     const parentElF = document.querySelector('#main-footer');
-    renderWithTemplate(headerTemplateFn, parentElH);
-    renderWithTemplate(footerTemplateFn, parentElF);
+    const parentElL = document.querySelector('#login-modal');
+    const parentElS = document.querySelector('#signup-modal');
+
+    await renderWithTemplate(headerTemplateFn, parentElH);
+    await renderWithTemplate(footerTemplateFn, parentElF);
+    await renderWithTemplate(loginTemplateFn, parentElL);
+    await renderWithTemplate(signupTemplateFn, parentElS);
 }

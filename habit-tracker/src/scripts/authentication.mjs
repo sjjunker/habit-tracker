@@ -5,27 +5,37 @@ import loadHabitList from "./habitsList.mjs";
 let isLoggedIn = false;
 
 //Login Modal
-export default function loadLogin(db, habitDatabaseName) {
+export default async function loadLogin(db, habitDatabaseName) {
+    //Login DOM elements
     var modal = document.getElementById("login-modal");
     var showButton = document.getElementById("show-login");
     var submitButton = document.getElementById("login-submit");
 
-    //Open the modal on click
+    //Signup DOM elements
+    var signupModal = document.getElementById("signup-modal");
+    var showSignupButton = document.getElementById("show-sign-up");
+    var signupSubmitButton = document.getElementById("signup-submit");
+
+    //Open the login modal on click
     showButton.addEventListener("click", () => {
         modal.style.display = "block";
     });
 
-    //Close the modal on click
+    //Open the signup modal on click
+    showSignupButton.addEventListener("click", () => {
+        signupModal.style.display = "block";
+    });
+
+    //Close the login modal on click
     submitButton.addEventListener("click", async (event) => {
         event.preventDefault();
 
         //Login
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
+        const email = document.getElementById("login-email").value;
+        const password = document.getElementById("login-password").value;
 
         try {
             await login(email, password);
-            console.log(isLoggedIn);
 
             if (isLoggedIn) {
                 //Listen for adding habits
@@ -43,15 +53,38 @@ export default function loadLogin(db, habitDatabaseName) {
         }
     });
 
+    //Close the signup modal on click
+    signupSubmitButton.addEventListener("click", async (event) => {
+        event.preventDefault();
+
+        //Signup
+        const email = document.getElementById("signup-email").value;
+        const password = document.getElementById("signup-password").value;
+
+        try {
+            await newUser(email, password)
+                .then(() => {
+                    //Close the modal
+                    modal.style.display = "none";
+                });
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Signup Failed");
+        }
+    });
+
     // When the user clicks anywhere outside of the modal, close it
     window.addEventListener("click", (event) => {
         if (event.target == modal) {
             modal.style.display = "none";
         }
+        if (event.target == signupModal) {
+            signupModal.style.display = "none"
+        }
     });
 }
 
-//Create a new account: a TODO for later
+//Create a new account
 async function newUser(email, password) {
     const auth = getAuth();
     try {

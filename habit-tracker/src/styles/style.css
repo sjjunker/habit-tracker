@@ -130,7 +130,6 @@ main {
   border-radius: 50%;
   font-weight: bold;
   font-size: 1.25rem;
-  padding: none;
   justify-self: right;
 }
 
@@ -179,7 +178,8 @@ main {
   border-radius: 0;
 }
 
-#show-login {
+#show-login,
+#show-sign-up {
   display: flex;
   justify-content: center;
   margin: 0;
@@ -286,6 +286,7 @@ main {
 
 /* Modal Styles */
 #login-modal,
+#signup-modal,
 #add-habit-modal {
   display: none;
   position: fixed;
@@ -301,6 +302,7 @@ main {
 }
 
 .login-content,
+.signup-content,
 .add-habit-content {
   background-color: var(--tertiary-color);
   margin: 15% auto;
@@ -312,12 +314,14 @@ main {
 }
 
 #login-form,
+#signup-form,
 #add-habit-form {
   display: flex;
   flex-direction: column;
 }
 
 #login-submit,
+#signup-submit,
 #add-habit-submit {
   margin-top: 1rem;
 }

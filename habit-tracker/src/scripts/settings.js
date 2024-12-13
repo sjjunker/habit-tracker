@@ -10,7 +10,6 @@ import "../styles/style.css";
 const app = startFirestore();
 const db = getFirestore(app);
 const auth = getAuth(app);
-console.log(auth);
 
 //Check for user
 onAuthStateChanged(auth, (user) => {

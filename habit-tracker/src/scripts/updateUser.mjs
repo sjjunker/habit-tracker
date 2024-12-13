@@ -24,7 +24,7 @@ export function updateUserProperties(user) {
         //Password change
         //TODO: add a firestore login popup
         if (passwordSelector.value != "") {
-            user.updateUsersPassword(user, passwordSelector.value);
+            updateUsersPassword(user, passwordSelector.value);
         }
     })
 }
