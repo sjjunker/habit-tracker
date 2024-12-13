@@ -6,8 +6,13 @@ export async function setIsComplete(db, collectionName, habit) {
     let todaysDate = new Date();
     todaysDate.setHours(0, 0, 0, 0);
     const current_timestamp = Timestamp.fromDate(todaysDate);
-    let completionLength = await readCompletedLength(db, collectionName, habit.habitId);
-    console.log(completionLength);
+    let completionLength = 0;
+    try {
+        completionLength = await readCompletedLength(db, collectionName, habit.habitId);
+    } catch (err) {
+        console.log(err);
+    }
+
 
     //Check if the habit completed collection has today's date
     if (completionLength > 0) {
@@ -33,11 +38,15 @@ export async function addRemoveToCompletionArray(db, collectionName, habit) {
     todaysDate.setHours(0, 0, 0, 0);
     const current_timestamp = Timestamp.fromDate(todaysDate)
 
-    if (habitCheckbox.checked == true) {
-        await addDate(db, collectionName, habit.habitId, current_timestamp);
-        console.log("checked")
-    } else {
-        await removeDate(db, collectionName, habit.habitId, current_timestamp);
-        console.log("unchecked");
+    try {
+        if (habitCheckbox.checked == true) {
+            await addDate(db, collectionName, habit.habitId, current_timestamp);
+            console.log("checked")
+        } else {
+            await removeDate(db, collectionName, habit.habitId, current_timestamp);
+            console.log("unchecked");
+        }
+    } catch (err) {
+        console.log(err);
     }
 }

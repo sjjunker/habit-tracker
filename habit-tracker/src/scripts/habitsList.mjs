@@ -6,8 +6,12 @@ import { addRemoveToCompletionArray } from "./habitCompletion.mjs";
 
 //Get the list of habits
 export default async function loadHabitList(db, habitDatabaseName) {
-    const habitData = await readData(db, habitDatabaseName);
-    await renderHabitsList(db, habitDatabaseName, habitData);
+    try {
+        const habitData = await readData(db, habitDatabaseName);
+        await renderHabitsList(db, habitDatabaseName, habitData);
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 //Render the list to the HTML
@@ -15,83 +19,102 @@ async function renderHabitsList(db, habitDatabaseName, habits) {
     const habitsList = document.getElementById("habits-list");
     habitsList.innerHTML = "";
 
-    for await (let habit of habits) {
-        let habitLi = document.createElement("li");
-        let habitLiDiv = document.createElement("div");
-        let myCheckbox = document.createElement("input");
-        let habitDetailLink = document.createElement("a");
-        let progressBarInner = document.createElement("div");
-        let progressBarOutter = document.createElement("div");
-        let editButton = document.createElement("button");
-        let deleteButton = document.createElement("button");
+    try {
+        for await (let habit of habits) {
+            let habitLi = document.createElement("li");
+            let habitLiDiv = document.createElement("div");
+            let myCheckbox = document.createElement("input");
+            let habitDetailLink = document.createElement("a");
+            let progressBarInner = document.createElement("div");
+            let progressBarOutter = document.createElement("div");
+            let editButton = document.createElement("button");
+            let deleteButton = document.createElement("button");
 
-        //Get number completed goals
-        const numCompleted = await readCompletedLength(db, habitDatabaseName, habit.habitId);
+            //Get number completed goals
+            const numCompleted = await readCompletedLength(db, habitDatabaseName, habit.habitId);
 
-        //Set attributes
-        myCheckbox.type = "checkbox";
-        myCheckbox.name = `isCompleted${habit.habitId}`;
-        myCheckbox.id = `isCompleted${habit.habitId}`;
-        myCheckbox.className = "checkboxClass";
-        myCheckbox.checked = await setIsComplete(db, habitDatabaseName, habit);
+            //Set attributes
+            myCheckbox.type = "checkbox";
+            myCheckbox.name = `isCompleted${habit.habitId}`;
+            myCheckbox.id = `isCompleted${habit.habitId}`;
+            myCheckbox.className = "checkboxClass";
+            myCheckbox.checked = await setIsComplete(db, habitDatabaseName, habit);
 
-        //Set event listener for checkbox
-        myCheckbox.addEventListener("change", async () => {
-            await addRemoveToCompletionArray(db, habitDatabaseName, habit);
-            const eventNumCompleted = await readCompletedLength(db, habitDatabaseName, habit.habitId);
-            setProgressBar(habit.habitGoal, eventNumCompleted, progressBarInner);
-        });
+            //Set event listener for checkbox
+            myCheckbox.addEventListener("change", async () => {
+                try {
+                    await addRemoveToCompletionArray(db, habitDatabaseName, habit);
+                } catch (err) {
+                    console.log(err);
+                }
 
-        progressBarInner.id = "progress-bar-inner";
-        progressBarInner.className = "progress-bar-inner-class";
-        progressBarOutter.id = "progress-bar-outter";
-        progressBarOutter.className = "progress-bar-outter-class";
-        progressBarOutter.appendChild(progressBarInner);
-        setProgressBar(habit.habitGoal, numCompleted, progressBarInner);
+                let eventNumCompleted;
 
-        habitDetailLink.innerHTML = habit.habitName;
-        let mappedArray = habit.completed.map(day => day.toDate());
-        let completedArray = JSON.stringify(mappedArray);
-        habitDetailLink.href = `/habitDetailView/index.html?habitId=${habit.habitId}&habitName=${habit.habitName}&habitCategory=${habit.habitCategory}&habitDescription=${habit.habitDescription}&habitGoal=${habit.habitGoal}$habitFrequency=${habit.habitFrequency}&setReminder=${habit.setReminder}&completed=${completedArray}`;
+                try {
+                    eventNumCompleted = await readCompletedLength(db, habitDatabaseName, habit.habitId);
+                } catch (err) {
+                    eventNumCompleted = 0;
+                    console.log(err);
+                }
+                setProgressBar(habit.habitGoal, eventNumCompleted, progressBarInner);
+            });
 
-        //Edit event
-        editButton.innerHTML = `<img src="../images/edit.svg" alt="edit icon"/>`;
-        editButton.id = "edit-button";
-        editButton.addEventListener("click", () => {
-            //Open Modal
-            let modal = document.getElementById("add-habit-modal");
-            modal.style.display = "block";
+            progressBarInner.id = "progress-bar-inner";
+            progressBarInner.className = "progress-bar-inner-class";
+            progressBarOutter.id = "progress-bar-outter";
+            progressBarOutter.className = "progress-bar-outter-class";
+            progressBarOutter.appendChild(progressBarInner);
+            setProgressBar(habit.habitGoal, numCompleted, progressBarInner);
 
-            //Default Properties
-            document.getElementById("habitName").value = habit.habitName;
-            document.getElementById("habitCategory").value = habit.habitCategory;
-            document.getElementById("habitName").value = habit.habitName;
-            document.getElementById("habitGoal").value = habit.habitGoal;
-            document.forms["add-habit-form"][`${habit.habitFrequency}`].checked = true;
-            document.getElementById("habitDescription").value = habit.habitDescription;
-            document.getElementById("setReminder").value = habit.setReminder;
+            habitDetailLink.innerHTML = habit.habitName;
+            habitDetailLink.href = `/habitDetailView/index.html?habitId=${habit.habitId}`;
 
-            //Call update function
-            updateHabit(db, habitDatabaseName, habit.habitId);
-        });
+            //Edit event
+            editButton.innerHTML = `<img src="../images/edit.svg" alt="edit icon"/>`;
+            editButton.id = "edit-button";
+            editButton.addEventListener("click", () => {
+                //Open Modal
+                let modal = document.getElementById("add-habit-modal");
+                modal.style.display = "block";
 
-        //Delete event
-        deleteButton.innerHTML = `<img src="../images/delete.svg" alt="edit icon"/>`;
-        deleteButton.id = "delete-button";
-        deleteButton.addEventListener("click", async () => {
-            await deleteData(db, habitDatabaseName, habit.habitId);
-            loadHabitList(db, habitDatabaseName);
-        });
+                //Default Properties
+                document.getElementById("habitName").value = habit.habitName;
+                document.getElementById("habitCategory").value = habit.habitCategory;
+                document.getElementById("habitName").value = habit.habitName;
+                document.getElementById("habitGoal").value = habit.habitGoal;
+                document.forms["add-habit-form"][`${habit.habitFrequency}`].checked = true;
+                document.getElementById("habitDescription").value = habit.habitDescription;
+                document.getElementById("setReminder").value = habit.setReminder;
 
-        //Add to li
-        habitLiDiv.appendChild(myCheckbox);
-        habitLiDiv.appendChild(habitDetailLink);
-        habitLiDiv.appendChild(progressBarOutter);
-        habitLiDiv.appendChild(editButton);
-        habitLiDiv.appendChild(deleteButton);
-        habitLi.appendChild(habitLiDiv);
+                //Call update function
+                updateHabit(db, habitDatabaseName, habit.habitId);
+            });
 
-        //Add to ul
-        habitsList.appendChild(habitLi);
+            //Delete event
+            deleteButton.innerHTML = `<img src="../images/delete.svg" alt="edit icon"/>`;
+            deleteButton.id = "delete-button";
+            deleteButton.addEventListener("click", async () => {
+                try {
+                    await deleteData(db, habitDatabaseName, habit.habitId);
+                } catch (err) {
+                    console.log(err);
+                }
+
+                loadHabitList(db, habitDatabaseName);
+            });
+
+            //Add to li
+            habitLiDiv.appendChild(myCheckbox);
+            habitLiDiv.appendChild(habitDetailLink);
+            habitLiDiv.appendChild(progressBarOutter);
+            habitLiDiv.appendChild(editButton);
+            habitLiDiv.appendChild(deleteButton);
+            habitLi.appendChild(habitLiDiv);
+
+            //Add to ul
+            habitsList.appendChild(habitLi);
+        }
+    } catch (err) {
+        console.log(err);
     }
 }

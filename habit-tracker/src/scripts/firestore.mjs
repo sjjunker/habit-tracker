@@ -26,33 +26,66 @@ export async function addData(db, collectionName, documentProperties) {
 
 //Update data
 export async function updateData(db, collectionName, documentId, docData) {
-    await setDoc(doc(db, collectionName, documentId), docData);
+    try {
+        await setDoc(doc(db, collectionName, documentId), docData);
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 //Delete Data
 export async function deleteData(db, collectionName, documentId) {
-    await deleteDoc(doc(db, collectionName, documentId));
+    try {
+        await deleteDoc(doc(db, collectionName, documentId));
+    } catch (err) {
+        console.log(err);
+    }
+
 }
 
 //Read data
 export async function readData(db, collectionName) {
-    const querySnapshot = await getDocs(collection(db, collectionName));
-    let dataArray = [];
+    try {
+        const querySnapshot = await getDocs(collection(db, collectionName));
+        let dataArray = [];
 
-    querySnapshot.forEach(doc => {
-        dataArray.push({
-            habitId: doc.id,
-            habitName: doc.data().habitName,
-            habitCategory: doc.data().habitCategory,
-            habitFrequency: doc.data().habitFrequency,
-            habitGoal: doc.data().habitGoal,
-            setReminder: doc.data().setReminder,
-            habitDescription: doc.data().habitDescription,
-            completed: doc.data().completed
+        querySnapshot.forEach(doc => {
+            dataArray.push({
+                habitId: doc.id,
+                habitName: doc.data().habitName,
+                habitCategory: doc.data().habitCategory,
+                habitFrequency: doc.data().habitFrequency,
+                habitGoal: doc.data().habitGoal,
+                setReminder: doc.data().setReminder,
+                habitDescription: doc.data().habitDescription,
+                completed: doc.data().completed
+            });
         });
-    });
 
-    return dataArray;
+        return dataArray;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export async function getHabit(db, collectionName, habitId) {
+    // Get the document reference, snapshot
+    try {
+        const habitRef = doc(db, collectionName, habitId);
+        const habitSnapshot = await getDoc(habitRef);
+        let habit;
+
+        //Return the habit data
+        if (habitSnapshot.exists()) {
+            habit = habitSnapshot.data();
+        } else {
+            habit = null;
+        }
+
+        return habit;
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 //Read habit completed array length

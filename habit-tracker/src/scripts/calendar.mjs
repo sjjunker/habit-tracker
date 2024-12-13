@@ -9,12 +9,7 @@ let calendar = jsCalendar.new(calendarDiv);
 
 export function showCalEvents(completedDates) {
     //Set the completedDates array elements to dates
-    let dateArray = [];
-
-    completedDates.forEach(element => {
-        let dateElement = new Date(element);
-        dateArray.push(dateElement);
-    });
+    let dateArray = completedDates.map(element => element.toDate());
 
     //Select the completed dates
     calendar.select(dateArray);
@@ -27,16 +22,20 @@ export async function setEventListeners(db, collection, habitId) {
     calendar.onDateClick(async function (event, date) {
         let newTimestamp = Timestamp.fromDate(date);
 
-        if (!calendar.isSelected(date)) {
-            //If the date is not yet selected then select, and add to firestore
-            calendar.select(date);
-            await addDate(db, collection, habitId, newTimestamp);
-            completed = await readCompletedArray(db, collection, habitId);
-        } else {
-            //If the date is already selected, unselect it and remove from firestore
-            calendar.unselect(date);
-            await removeDate(db, collection, habitId, newTimestamp);
-            completed = await readCompletedArray(db, collection, habitId);
+        try {
+            if (!calendar.isSelected(date)) {
+                //If the date is not yet selected then select, and add to firestore
+                calendar.select(date);
+                await addDate(db, collection, habitId, newTimestamp);
+                completed = await readCompletedArray(db, collection, habitId);
+            } else {
+                //If the date is already selected, unselect it and remove from firestore
+                calendar.unselect(date);
+                await removeDate(db, collection, habitId, newTimestamp);
+                completed = await readCompletedArray(db, collection, habitId);
+            }
+        } catch (err) {
+            console.log(err);
         }
 
         //set the completed array to an array of strings

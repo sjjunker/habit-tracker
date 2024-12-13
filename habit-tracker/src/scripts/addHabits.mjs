@@ -42,7 +42,11 @@ export default async function addHabit(db, collectionName, isLoggedIn) {
             setReminder: reminder
         }
 
-        await addData(db, collectionName, habitProperties);
+        try {
+            await addData(db, collectionName, habitProperties);
+        } catch (err) {
+            console.log(`Couldn't activate add habits button ${err}`);
+        }
 
         //Reload habits list
         document.getElementById("habits-list").innerHTML = "";

@@ -1,11 +1,12 @@
-import { getAuth, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, setPersistence, browserLocalPersistence, onAuthStateChanged } from "firebase/auth";
 import addHabit from "./addHabits.mjs";
 import loadHabitList from "./habitsList.mjs";
 
 let isLoggedIn = false;
 
 //Login Modal
-export default async function loadLogin(db, habitDatabaseName) {
+export default async function loadLogin(db, habitDatabaseName, auth) {
+
     //Login DOM elements
     var modal = document.getElementById("login-modal");
     var showButton = document.getElementById("show-login");
@@ -35,7 +36,7 @@ export default async function loadLogin(db, habitDatabaseName) {
         const password = document.getElementById("login-password").value;
 
         try {
-            await login(email, password);
+            await login(email, password, auth);
 
             if (isLoggedIn) {
                 //Listen for adding habits
@@ -62,7 +63,7 @@ export default async function loadLogin(db, habitDatabaseName) {
         const password = document.getElementById("signup-password").value;
 
         try {
-            await newUser(email, password)
+            await newUser(email, password, auth)
                 .then(() => {
                     //Close the modal
                     modal.style.display = "none";
@@ -85,21 +86,19 @@ export default async function loadLogin(db, habitDatabaseName) {
 }
 
 //Create a new account
-async function newUser(email, password) {
-    const auth = getAuth();
+async function newUser(email, password, auth) {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
         localStorage.setItem("user", JSON.stringify(user));
-        isLoggedIn = true;
+        alert("User created. Please sign in.");
     } catch (error) {
         console.error(`Error creating user: ${error.code} - ${error.message}`);
     }
 }
 
 //Sign in a user
-async function login(email, password) {
-    const auth = getAuth();
+async function login(email, password, auth) {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
@@ -108,15 +107,14 @@ async function login(email, password) {
     } catch (error) {
         console.error(`Error signing in: ${error.code} - ${error.message}`);
         isLoggedIn = false; // Ensure isLoggedIn is reset on failure
-        throw error; // Propagate the error for the caller to handle
     }
 }
 
 //Sign out a user: a TODO for later
-async function logout() {
-    const auth = getAuth();
+async function logout(auth) {
     signOut(auth).then(() => {
         // Sign-out successful.
+        alert("Logout sucessful.");
     }).catch((error) => {
         console.log(error);
     });

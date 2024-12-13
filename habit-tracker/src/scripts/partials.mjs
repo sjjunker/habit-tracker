@@ -1,8 +1,16 @@
+import getParam from "./getHabit.mjs";
+
 export async function renderWithTemplate(template, parentElement, data, callback, position = "afterbegin", clear = true) {
     if (clear) {
         parentElement.innerHTML = "";
     }
-    const htmlString = await template(data);
+    let htmlString;
+    try {
+        htmlString = await template(data);
+    } catch (err) {
+        console.log(err);
+    }
+
     parentElement.insertAdjacentHTML(position, htmlString);
     if (callback) {
         callback(data);
@@ -31,8 +39,12 @@ export async function loadHeaderFooter() {
     const parentElL = document.querySelector('#login-modal');
     const parentElS = document.querySelector('#signup-modal');
 
-    await renderWithTemplate(headerTemplateFn, parentElH);
-    await renderWithTemplate(footerTemplateFn, parentElF);
-    await renderWithTemplate(loginTemplateFn, parentElL);
-    await renderWithTemplate(signupTemplateFn, parentElS);
+    try {
+        await renderWithTemplate(headerTemplateFn, parentElH);
+        await renderWithTemplate(footerTemplateFn, parentElF);
+        await renderWithTemplate(loginTemplateFn, parentElL);
+        await renderWithTemplate(signupTemplateFn, parentElS);
+    } catch (err) {
+        console.log(err);
+    }
 }
