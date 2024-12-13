@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, Timestamp } from 'firebase/firestore';
+import { Timestamp } from 'firebase/firestore';
 import { doc, collection, addDoc, getDocs, deleteDoc, setDoc, updateDoc, getDoc } from "firebase/firestore";
 
 export function startFirestore() {
@@ -12,7 +12,7 @@ export function startFirestore() {
         appId: "1:966706756752:web:2a6ec91a49515dfa646c15"
     });
 
-    return getFirestore(app);
+    return app;
 }
 
 //Add data

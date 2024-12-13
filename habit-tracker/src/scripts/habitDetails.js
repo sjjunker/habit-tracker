@@ -4,12 +4,16 @@ import computeStreak from "./computeStreak.mjs";
 import { showCalEvents } from "./calendar.mjs";
 import { startFirestore } from './firestore.mjs';
 import { setEventListeners } from "./calendar.mjs";
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import "../styles/style.css";
 import "../styles/jsCalendar.css";
 import "/images/favicon.ico";
 
 //Load the database
-const db = startFirestore();
+const app = startFirestore();
+const db = getFirestore(app);
+const auth = getAuth(app);
 const habitDatabaseName = "habits";
 
 loadHeaderFooter();
