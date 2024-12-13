@@ -1,36 +1,61 @@
-import { getAuth, updatePassword, updateEmail, updateProfile } from "firebase/auth";
+import { updatePassword, updateEmail, updateProfile } from "firebase/auth";
 
-const auth = getAuth();
-const user = auth.currentUser;
+//Get DOM selectors
+const userNameSelector = document.getElementById("users-name");
+const emailSelector = document.getElementById("email");
+const passwordSelector = document.getElementById("password");
+const submitButton = document.getElementById("user-submit");
+
+export function updateUserProperties(user) {
+    //Listen for submit button
+    submitButton.addEventListener("click", e => {
+        e.preventDefault();
+
+        //User's name change
+        if (userNameSelector.value != "") {
+            updateUsersName(user, userNameSelector.value);
+        }
+
+        //Email change
+        if (emailSelector.value != "") {
+            updateUsersEmail(user, emailSelector.value);
+        }
+
+        //Password change
+        //TODO: add a firestore login popup
+        if (passwordSelector.value != "") {
+            user.updateUsersPassword(user, passwordSelector.value);
+        }
+    })
+}
 
 //Update user's first and last names
-updateProfile(auth.currentUser, {
-    displayName: "Jane Q. User", photoURL: "https://example.com/jane-q-user/profile.jpg"
-}).then(() => {
-    // Profile updated!
-    // ...
-}).catch((error) => {
-    // An error occurred
-    // ...
-});
-
+function updateUsersName(user, usersName) {
+    updateProfile(user, {
+        displayName: usersName
+    }).then(() => {
+        console.log("profile updated");
+    }).catch((error) => {
+        console.log(user);
+        console.log(`Profile not updated. Error: ${error}`);
+    });
+}
 
 //Update email
-updateEmail(auth.currentUser, "user@example.com").then(() => {
-    // Email updated!
-    // ...
-}).catch((error) => {
-    // An error occurred
-    // ...
-});
+function updateUsersEmail(user, email) {
+    updateEmail(user, email).then(() => {
+        console.log(`Email updated.`);
+    }).catch((error) => {
+        console.log(`Email not updated. Error: ${error}`);
+    });
+}
 
 
 //Update password
-const newPassword = getASecureRandomPassword();
-
-updatePassword(user, newPassword).then(() => {
-    // Update successful.
-}).catch((error) => {
-    // An error ocurred
-    // ...
-});
+function updateUsersPassword(user, password) {
+    updatePassword(user, password).then(() => {
+        console.log("Password updated.");
+    }).catch((error) => {
+        console.log(`Password not updated. Error: ${error}`);
+    });
+}

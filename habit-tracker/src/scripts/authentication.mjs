@@ -51,7 +51,7 @@ export default function loadLogin(db, habitDatabaseName) {
     });
 }
 
-//Create a new account
+//Create a new account: a TODO for later
 async function newUser(email, password) {
     const auth = getAuth();
     try {
@@ -79,7 +79,7 @@ async function login(email, password) {
     }
 }
 
-//Sign out a user
+//Sign out a user: a TODO for later
 async function logout() {
     const auth = getAuth();
     signOut(auth).then(() => {
