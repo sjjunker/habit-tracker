@@ -3,7 +3,7 @@ import { setSettingsCheckboxes } from "./updateSettings.mjs";
 import { loadHeaderFooter } from "./partials.mjs";
 import { startFirestore } from "./firestore.mjs";
 import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { updateUserProperties } from "./updateUser.mjs";
 import "../styles/style.css";
 
@@ -15,11 +15,17 @@ try {
 
 const app = startFirestore();
 const db = getFirestore(app);
-const auth = getAuth(app);
-const user = auth.currentUser;
+const auth = getAuth();
 
 settingsEventListeners();
 setSettingsCheckboxes();
 
-//Update the user properties
-updateUserProperties(user);
+onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        console.log("User is signed in:", user);
+        //Update the user properties
+        updateUserProperties(user);
+    } else {
+        console.log("No user is signed in.");
+    }
+});
