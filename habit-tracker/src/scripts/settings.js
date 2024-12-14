@@ -39,6 +39,6 @@ onAuthStateChanged(auth, async (user) => {
         //Update the user properties
         updateUserProperties(user);
     } else {
-        console.log("No user is signed in.");
+        alert("No user is signed in.");
     }
 });

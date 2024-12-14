@@ -95,7 +95,7 @@ async function newUser(email, password, auth) {
         //Send email verification
         sendEmailVerification(auth.currentUser)
             .then(() => {
-                console.log("Verification email sent.");
+                alert("Verification email sent.");
             });
 
         alert("User created. Please sign in.");

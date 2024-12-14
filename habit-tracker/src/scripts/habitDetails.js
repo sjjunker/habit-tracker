@@ -47,7 +47,7 @@ onAuthStateChanged(auth, async (user) => {
             console.log(err);
         }
     } else {
-        console.log("No user is signed in.");
+        alert("No user is signed in.");
     }
 });
 
@@ -57,11 +57,16 @@ function renderHabitDetails(habit) {
     let habitCategory = document.getElementById("habit-category-text");
     let habitDescription = document.getElementById("habit-description-text");
     let streakCount = document.getElementById("streak-number");
-    let mappedArray = habit.completed.map(day => day.toDate());
-    mappedArray.sort();
+
+    if (habit.completed != null) {
+        let mappedArray = habit.completed.map(day => day.toDate());
+        mappedArray.sort();
+        streakCount.innerHTML = computeStreak(mappedArray);
+    } else {
+        streakCount.innerHTML = 0;
+    }
 
     title.innerHTML = habit.habitName;
     habitCategory.innerHTML = habit.habitCategory;
     habitDescription.innerHTML = habit.habitDescription;
-    streakCount.innerHTML = computeStreak(mappedArray);
 }

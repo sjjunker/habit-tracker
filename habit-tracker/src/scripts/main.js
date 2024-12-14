@@ -45,7 +45,7 @@ setPersistence(auth, browserLocalPersistence)
         await loadHabitList(db, habitDatabaseName);
 
       } else {
-        console.log("No user is signed in.");
+        alert("No user is signed in.");
         document.getElementById("habits-list").innerHtml = "";
       }
     });

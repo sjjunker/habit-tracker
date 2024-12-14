@@ -17,14 +17,11 @@ export async function setIsComplete(db, collectionName, habit) {
     //Check if the habit completed collection has today's date
     if (completionLength > 0) {
         if (habit.completed.some(date => date.isEqual(current_timestamp))) {
-            console.log("date found");
             return true;
         } else {
-            console.log("date not found");
             return false;
         }
     } else {
-        console.log("No currently completed habits.");
         return false;
     }
 }
@@ -41,10 +38,8 @@ export async function addRemoveToCompletionArray(db, collectionName, habit) {
     try {
         if (habitCheckbox.checked == true) {
             await addDate(db, collectionName, habit.habitId, current_timestamp);
-            console.log("checked")
         } else {
             await removeDate(db, collectionName, habit.habitId, current_timestamp);
-            console.log("unchecked");
         }
     } catch (err) {
         console.log(err);

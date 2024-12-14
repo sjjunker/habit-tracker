@@ -58,7 +58,7 @@ export async function readData(db, collectionName) {
                 habitGoal: doc.data().habitGoal,
                 setReminder: doc.data().setReminder,
                 habitDescription: doc.data().habitDescription,
-                completed: doc.data().completed
+                completed: doc.data().completed ? doc.data().completed : null
             });
         });
 
@@ -156,14 +156,14 @@ export async function addDate(db, collectionName, habitId, habitCompletionDate) 
 
         // Prevent duplicates
         if (habitCompletionArray.some(date => date.isEqual(habitCompletionDate))) {
-            console.log("Date already exists.");
+            alert("Date already exists.");
         } else {
             // Add the new date
             await updateDoc(habitRef, {
                 completed: [...habitCompletionArray, habitCompletionDate],
             });
 
-            console.log(`Date added.`);
+            alert(`Date added.`);
         }
     } catch (err) {
         console.error("Error adding date:", err);
@@ -197,7 +197,7 @@ export async function removeDate(db, collectionName, habitId, habitUncompletedDa
             // Update Firestore document
             await updateDoc(habitRef, { completed: updatedCompletionArray });
 
-            console.log(`Date removed.`);
+            alert(`Date removed.`);
         }
     } catch (error) {
         console.error("Error removing date:", error);

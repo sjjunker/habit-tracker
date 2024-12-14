@@ -33,10 +33,9 @@ onAuthStateChanged(auth, async (user) => {
         console.log("User is signed in:", user);
 
         let achievements = await readAchievements(db, collection);
-        console.log(achievements);
         renderAchievements(achievements);
 
     } else {
-        console.log("No user is signed in.");
+        alert("No user is signed in.");
     }
 });

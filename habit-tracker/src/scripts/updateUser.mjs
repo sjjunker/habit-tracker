@@ -28,18 +28,17 @@ function updateUsersName(user, usersName) {
     updateProfile(user, {
         displayName: usersName
     }).then(() => {
-        console.log("profile updated");
+        alert("profile updated");
     }).catch((error) => {
-        console.log(user);
-        console.log(`Profile not updated. Error: ${error}`);
+        alert(`Profile not updated. Error: ${error}`);
     });
 }
 
 //Update password
 function updateUsersPassword(user, password) {
     updatePassword(user, password).then(() => {
-        console.log("Password updated.");
+        alert("Password updated.");
     }).catch((error) => {
-        console.log(`Password not updated. Error: ${error}`);
+        alert(`Password not updated. Error: ${error}`);
     });
 }
