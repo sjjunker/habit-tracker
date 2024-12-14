@@ -1,6 +1,4 @@
-import { signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, setPersistence, browserLocalPersistence, onAuthStateChanged } from "firebase/auth";
-import addHabit from "./addHabits.mjs";
-import loadHabitList from "./habitsList.mjs";
+import { signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 
 let isLoggedIn = false;
 
@@ -8,14 +6,18 @@ let isLoggedIn = false;
 export default async function loadLogin(db, habitDatabaseName, auth) {
 
     //Login DOM elements
-    var modal = document.getElementById("login-modal");
-    var showButton = document.getElementById("show-login");
-    var submitButton = document.getElementById("login-submit");
+    let modal = document.getElementById("login-modal");
+    let showButton = document.getElementById("show-login");
+    let submitButton = document.getElementById("login-submit");
 
     //Signup DOM elements
-    var signupModal = document.getElementById("signup-modal");
-    var showSignupButton = document.getElementById("show-sign-up");
-    var signupSubmitButton = document.getElementById("signup-submit");
+    let signupModal = document.getElementById("signup-modal");
+    let showSignupButton = document.getElementById("show-sign-up");
+    let signupSubmitButton = document.getElementById("signup-submit");
+
+    //Logout DOM Element
+    let logoutButton = document.getElementById("logout-button");
+
 
     //Open the login modal on click
     showButton.addEventListener("click", () => {
@@ -38,16 +40,9 @@ export default async function loadLogin(db, habitDatabaseName, auth) {
         try {
             await login(email, password, auth);
 
-            if (isLoggedIn) {
-                //Listen for adding habits
-                addHabit(db, habitDatabaseName, isLoggedIn);
+            //Close the modal
+            modal.style.display = "none";
 
-                //Close the modal
-                modal.style.display = "none";
-
-                //Load and render list of habits
-                await loadHabitList(db, habitDatabaseName);
-            }
         } catch (error) {
             console.error("Error:", error);
             alert("Login Failed");
@@ -74,6 +69,11 @@ export default async function loadLogin(db, habitDatabaseName, auth) {
         }
     });
 
+    //Log the user out
+    logoutButton.addEventListener("click", async () => {
+        await logout(auth);
+    });
+
     // When the user clicks anywhere outside of the modal, close it
     window.addEventListener("click", (event) => {
         if (event.target == modal) {
@@ -91,6 +91,13 @@ async function newUser(email, password, auth) {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
         localStorage.setItem("user", JSON.stringify(user));
+
+        //Send email verification
+        sendEmailVerification(auth.currentUser)
+            .then(() => {
+                console.log("Verification email sent.");
+            });
+
         alert("User created. Please sign in.");
     } catch (error) {
         console.error(`Error creating user: ${error.code} - ${error.message}`);

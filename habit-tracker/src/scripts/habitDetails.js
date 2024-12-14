@@ -6,9 +6,12 @@ import { startFirestore, getHabit } from './firestore.mjs';
 import { setEventListeners } from "./calendar.mjs";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { setDarkMode } from "./darkmode.mjs";
 import "../styles/style.css";
 import "../styles/jsCalendar.css";
 import "/images/favicon.ico";
+
+setDarkMode();
 
 const app = startFirestore();
 const auth = getAuth();

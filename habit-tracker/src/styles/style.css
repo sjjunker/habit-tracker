@@ -4,8 +4,11 @@
   --primary-color: #FF7043;
   --secondary-color: #008080;
   --tertiary-color: #FEFCE0;
+  --primary-dark-color: #a04a26;
+  --tertiary-dark-color: #432121;
   --background-color-one: #A8CE8F;
   --background-color-two: #97D1CE;
+  --background-dark: black;
 
   --heading-fonts: montserrat sans-serif;
   --body-fonts: lato static;
@@ -19,11 +22,22 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/*Dark mode styling*/
+.dark-mode {
+  background: var(--background-dark);
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  min-height: 100vh;
+  background: linear-gradient(var(--background-color-one), var(--background-color-two));
   font-family: var(--body-fonts);
 }
 
@@ -80,9 +94,18 @@ input[type="checkbox"] {
   accent-color: var(--primary-color);
 }
 
+.dark-mode input[type="checkbox"] {
+  accent-color: var(--primary-dark-color);
+}
+
 input[type="text"]:focus,
 input[type="email"]:focus {
   outline: 2px solid var(--primary-color);
+}
+
+.dark-mode input[type="text"]:focus,
+.dark-mode input[type="email"]:focus {
+  outline: 2px solid var(--primary-dark-color);
 }
 
 #logo {
@@ -102,15 +125,6 @@ a {
 
 input {
   padding: .5rem;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  min-width: 320px;
-  min-height: 100vh;
-  background: linear-gradient(var(--background-color-one), var(--background-color-two));
 }
 
 main {
@@ -133,6 +147,10 @@ main {
   justify-self: right;
 }
 
+#add-habit-button {
+  background-color: var(--primary-dark-color);
+}
+
 /*Header*/
 #gear-icon {
   position: absolute;
@@ -150,6 +168,10 @@ main {
   background: var(--tertiary-color);
   height: 50px;
   padding: 1em;
+}
+
+.dark-mode .top-nav {
+  background: var(--tertiary-dark-color);
 }
 
 .menu {
@@ -178,8 +200,13 @@ main {
   border-radius: 0;
 }
 
+.dark-mode .menu>li {
+  background-color: var(--tertiary-dark-color);
+}
+
 #show-login,
-#show-sign-up {
+#show-sign-up,
+#logout-button {
   display: flex;
   justify-content: center;
   margin: 0;
@@ -188,6 +215,12 @@ main {
   background-color: var(--tertiary-color);
   border: none;
   text-decoration: none;
+}
+
+.dark-mode #show-login,
+.dark-mode #show-sign-up,
+.dark-mode #logout-button {
+  background-color: var(--tertiary-dark-color);
 }
 
 #hamburger-menu~.menu li {
@@ -252,6 +285,10 @@ main {
   background: var(--tertiary-color);
 }
 
+.dark-mode #hamburger-menu:checked+.menu-button-container .menu-button {
+  background: var(--tertiary-dark-color);
+}
+
 #hamburger-menu:checked+.menu-button-container .menu-button::after {
   margin-top: 0px;
   transform: rotate(-405deg);
@@ -259,6 +296,10 @@ main {
 
 .menu>li:not(:last-child) {
   border-bottom: 1px solid var(--primary-color);
+}
+
+.dark-mode .menu>li:not(:last-child) {
+  border-bottom: 1px solid var(--primary-dark-color);
 }
 
 /*end hamburger menu*/
@@ -313,6 +354,13 @@ main {
   border-radius: 1rem;
 }
 
+.dark-mode .login-content,
+.dark-mode .signup-content,
+.dark-mode .add-habit-content {
+  background-color: var(--tertiary-dark-color);
+  border: 3px solid var(--primary-dark-color);
+}
+
 #login-form,
 #signup-form,
 #add-habit-form {
@@ -342,6 +390,10 @@ li {
   margin: .2rem;
 }
 
+.dark-mode li {
+  background-color: var(--tertiary-dark-color);
+}
+
 li div {
   display: grid;
   align-items: center;
@@ -352,6 +404,11 @@ li div {
 #edit-button,
 #delete-button {
   background-color: var(--tertiary-color);
+}
+
+.dark-mode #edit-button,
+.dark-mode #delete-button {
+  background-color: var(--tertiary-dark-color);
 }
 
 #edit-button img,
@@ -365,6 +422,10 @@ li div {
   height: .85rem;
   background-color: var(--primary-color);
   display: block;
+}
+
+.dark-mode .progress-bar-inner-class {
+  background-color: var(--primary-dark-color);
 }
 
 .progress-bar-outter-class {
@@ -401,6 +462,10 @@ li div {
   box-shadow: .5rem .5rem 1rem;
 }
 
+.dark-mode #habit-description-div {
+  background-color: var(--tertiary-dark-color);
+}
+
 #habit-category-div {
   display: flex;
   justify-content: space-between;
@@ -427,6 +492,10 @@ li div {
   border-radius: 1rem;
 }
 
+.dark-mode #calendar table {
+  background-color: var(--tertiary-dark-color);
+}
+
 #calendar thead {
   border-radius: 1rem 1rem 0 0;
 }
@@ -447,26 +516,51 @@ li div {
   border: none;
 }
 
+.dark-mode #calendar tbody td.jsCalendar-selected {
+  background-color: var(--tertiary-dark-color);
+}
+
 /* Orange */
 .jsCalendar.my-orange tbody td.jsCalendar-current {
   background-color: var(--primary-color);
+}
+
+.dark-mode .jsCalendar.my-orange tbody td.jsCalendar-current {
+  background-color: var(--primary-dark-color);
 }
 
 .jsCalendar.my-orange ::-moz-selection {
   background: var(--primary-color);
 }
 
+.dark-mode .jsCalendar.my-orange ::-moz-selection {
+  background: var(--primary-dark-color);
+}
+
 .jsCalendar.my-orange ::selection {
   background: var(--primary-color);
+}
+
+.dark-mode .jsCalendar.my-orange ::selection {
+  background: var(--primary-dark-color);
 }
 
 .jsCalendar.material-theme.my-orange thead {
   background-color: var(--primary-color);
 }
 
+.dark-mode .jsCalendar.material-theme.my-orange thead {
+  background-color: var(--primary-dark-color);
+}
+
 .jsCalendar.material-theme.my-orange thead .jsCalendar-nav-left:hover,
 .jsCalendar.material-theme.my-orange thead .jsCalendar-nav-right:hover {
   background-color: var(--primary-color);
+}
+
+.dark-mode .jsCalendar.material-theme.my-orange thead .jsCalendar-nav-left:hover,
+.dark-mode .jsCalendar.material-theme.my-orange thead .jsCalendar-nav-right:hover {
+  background-color: var(--primary-dark-color);
 }
 
 #calendar tbody td:hover {
@@ -486,6 +580,11 @@ li div {
   box-shadow: .5rem .5rem 1rem;
 }
 
+.dark-mode #user-settings,
+.dark-mode #profile-settings {
+  background-color: var(--tertiary-dark-color);
+}
+
 #user-settings input,
 #profile-settings input,
 #profile-settings label {
@@ -493,7 +592,8 @@ li div {
   margin-right: 1rem;
 }
 
-#profile-settings input {
+#profile-settings input,
+#user-submit {
   max-width: 450px;
   margin-bottom: 1rem;
 }
@@ -503,7 +603,15 @@ li div {
   padding-top: 1rem;
 }
 
+#user-submit {
+  margin: 1rem;
+  background-color: var(--primary-color);
+}
 
+.dark-mode #user-submit {
+  margin: 1rem;
+  background-color: var(--primary-dark-color);
+}
 
 footer {
   display: flex;
@@ -515,4 +623,8 @@ footer {
   width: 100%;
   bottom: 0;
   height: 6vh;
+}
+
+.dark-mode footer {
+  background: var(--tertiary-dark-color);
 }
