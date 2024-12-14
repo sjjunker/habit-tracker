@@ -6,14 +6,17 @@ import loadLogin from "./authentication.mjs";
 setDarkMode();
 
 //Load partials
-try {
-    await loadHeaderFooter();
-} catch (err) {
-    console.log(err);
-}
+async function loadPartialsAndLogin() {
+    try {
+        await loadHeaderFooter();
+    } catch (err) {
+        console.log(err);
+    }
 
-try {
-    await loadLogin(auth);
-} catch (err) {
-    console.log(err);
+    try {
+        await loadLogin(auth);
+    } catch (err) {
+        console.log(err);
+    }
 }
+loadPartialsAndLogin();

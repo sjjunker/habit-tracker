@@ -19,17 +19,20 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const habitDatabaseName = "habits";
 
-try {
-    await loadHeaderFooter();
-} catch (err) {
-    console.log(err);
-}
+async function loadPartialsAndLogin() {
+    try {
+        await loadHeaderFooter();
+    } catch (err) {
+        console.log(err);
+    }
 
-try {
-    await loadLogin(auth);
-} catch (err) {
-    console.log(err);
+    try {
+        await loadLogin(auth);
+    } catch (err) {
+        console.log(err);
+    }
 }
+loadPartialsAndLogin();
 
 onAuthStateChanged(auth, async (user) => {
     if (user) {

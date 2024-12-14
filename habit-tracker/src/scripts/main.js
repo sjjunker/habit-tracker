@@ -17,18 +17,30 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const habitDatabaseName = "habits";
 
-//Load partials
-try {
-  await loadHeaderFooter();
-} catch (err) {
-  console.log(err);
-}
+setDefaultSettings();
 
-try {
-  await loadLogin(auth);
-} catch (err) {
-  console.log(err);
+//Load partials
+async function loadPartialsAndLogin() {
+  try {
+    await loadHeaderFooter();
+  } catch (err) {
+    console.log(err);
+  }
+
+  try {
+    await loadLogin(auth);
+  } catch (err) {
+    console.log(err);
+  }
+  if (localStorage.getItem("quotes")) {
+    try {
+      await displayQuote();
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
+loadPartialsAndLogin();
 
 // Ensure persistence is set once (before any login attempt)
 setPersistence(auth, browserLocalPersistence)
@@ -53,16 +65,6 @@ setPersistence(auth, browserLocalPersistence)
   .catch((error) => {
     console.error("Error setting persistence:", error);
   });
-
-setDefaultSettings();
-
-if (localStorage.getItem("quotes")) {
-  try {
-    await displayQuote();
-  } catch (err) {
-    console.log(err);
-  }
-}
 
 
 
