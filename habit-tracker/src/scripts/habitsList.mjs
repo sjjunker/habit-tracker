@@ -1,4 +1,4 @@
-import { readData, deleteData, readCompletedLength } from "./firestore.mjs";
+import { readData, deleteData, readCompletedLength, readAchievements } from "./firestore.mjs";
 import updateHabit from "./updateHabits.mjs";
 import setProgressBar from "./progressBar.mjs";
 import { setIsComplete } from "./habitCompletion.mjs";
@@ -8,6 +8,7 @@ import { addRemoveToCompletionArray } from "./habitCompletion.mjs";
 export default async function loadHabitList(db, habitDatabaseName) {
     try {
         const habitData = await readData(db, habitDatabaseName);
+        //TODO: Update habit # achievements
         await renderHabitsList(db, habitDatabaseName, habitData);
     } catch (err) {
         console.log(err);

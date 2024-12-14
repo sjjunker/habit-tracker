@@ -25,7 +25,7 @@ try {
 }
 
 try {
-  await loadLogin(db, habitDatabaseName, auth);
+  await loadLogin(auth);
 } catch (err) {
   console.log(err);
 }

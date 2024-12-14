@@ -3,7 +3,7 @@ import { signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, se
 let isLoggedIn = false;
 
 //Login Modal
-export default async function loadLogin(db, habitDatabaseName, auth) {
+export default async function loadLogin(auth) {
 
     //Login DOM elements
     let modal = document.getElementById("login-modal");

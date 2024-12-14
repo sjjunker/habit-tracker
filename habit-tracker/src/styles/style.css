@@ -147,7 +147,7 @@ main {
   justify-self: right;
 }
 
-#add-habit-button {
+.dark-mode #add-habit-button {
   background-color: var(--primary-dark-color);
 }
 
@@ -611,6 +611,24 @@ li div {
 .dark-mode #user-submit {
   margin: 1rem;
   background-color: var(--primary-dark-color);
+}
+
+/*Achievements page styling*/
+#badges {
+  margin: 2rem;
+}
+
+#achievements-list li div {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+#achievements-list img {
+  height: 15vh;
+  width: auto;
+}
+
+.incomplete img {
+  filter: grayscale(100%);
 }
 
 footer {

@@ -6,6 +6,7 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { updateUserProperties } from "./updateUser.mjs";
 import { setDarkMode } from "./darkmode.mjs";
+import loadLogin from "./authentication.mjs";
 import "../styles/style.css";
 
 setDarkMode();
@@ -15,6 +16,12 @@ darkMode.addEventListener("change", setDarkMode);
 
 try {
     await loadHeaderFooter();
+} catch (err) {
+    console.log(err);
+}
+
+try {
+    await loadLogin(auth);
 } catch (err) {
     console.log(err);
 }

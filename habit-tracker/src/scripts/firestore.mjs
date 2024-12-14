@@ -68,21 +68,21 @@ export async function readData(db, collectionName) {
     }
 }
 
-export async function getHabit(db, collectionName, habitId) {
+export async function getDocument(db, collectionName, documentId) {
     // Get the document reference, snapshot
     try {
-        const habitRef = doc(db, collectionName, habitId);
-        const habitSnapshot = await getDoc(habitRef);
-        let habit;
+        const documentRef = doc(db, collectionName, documentId);
+        const documentSnapshot = await getDoc(documentRef);
+        let document;
 
         //Return the habit data
-        if (habitSnapshot.exists()) {
-            habit = habitSnapshot.data();
+        if (documentSnapshot.exists()) {
+            document = documentSnapshot.data();
         } else {
-            habit = null;
+            document = null;
         }
 
-        return habit;
+        return document;
     } catch (err) {
         console.log(err);
     }
@@ -202,4 +202,34 @@ export async function removeDate(db, collectionName, habitId, habitUncompletedDa
     } catch (error) {
         console.error("Error removing date:", error);
     }
+}
+
+export async function readAchievements(db, collectionName) {
+    try {
+        const querySnapshot = await getDocs(collection(db, collectionName));
+        let dataArray = [];
+
+        querySnapshot.forEach(doc => {
+            dataArray.push({
+                achievementId: doc.id,
+                achievementName: doc.data().achievementName,
+                achievementDescription: doc.data().achievementDescription,
+                isCompleted: doc.data().isCompleted,
+                dateCompleted: doc.data().achievementDate ? doc.data().achievementDate : null,
+                achievementGoal: doc.data().achievementGoal ? doc.data().achievementGoal : null,
+                achievementProgress: doc.data().achievementProgress ? doc.data().achicevementProgress : null
+            });
+        });
+
+        return dataArray;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+//Update document
+export async function updateAchievementProgress(db, collection, achievementId, progressData) {
+    const achievementRef = db.collection(collection).doc(achievementId);
+
+    const res = await achievementRef.update({ achievementProgress: progressData });
 }
