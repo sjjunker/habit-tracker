@@ -1,4 +1,4 @@
-const quotesApi = "https://api.api-ninjas.com/v1/quotes";
+const quotesApi = "https://api.api-ninjas.com/v1/quotes?category=success";
 
 export default async function displayQuote() {
     const quote = await getapi();

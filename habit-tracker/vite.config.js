@@ -15,7 +15,8 @@ export default defineConfig({
                 main: resolve(__dirname, "src/index.html"),
                 habitDetailsView: resolve(__dirname, "src/habitDetailView/index.html"),
                 achievements: resolve(__dirname, "src/achievements/index.html"),
-                settings: resolve(__dirname, "src/settings/index.html")
+                settings: resolve(__dirname, "src/settings/index.html"),
+                credits: resolve(__dirname, "src/credits/index.html")
             },
 
         },

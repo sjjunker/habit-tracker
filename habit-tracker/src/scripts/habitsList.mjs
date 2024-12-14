@@ -25,6 +25,7 @@ async function renderHabitsList(db, habitDatabaseName, habits) {
             let habitLi = document.createElement("li");
             let habitLiDiv = document.createElement("div");
             let myCheckbox = document.createElement("input");
+            let checkboxLabel = document.createElement("label");
             let habitDetailLink = document.createElement("a");
             let progressBarInner = document.createElement("div");
             let progressBarOutter = document.createElement("div");
@@ -35,6 +36,7 @@ async function renderHabitsList(db, habitDatabaseName, habits) {
             const numCompleted = await readCompletedLength(db, habitDatabaseName, habit.habitId);
 
             //Set attributes
+            checkboxLabel.setAttribute("for", myCheckbox);
             myCheckbox.type = "checkbox";
             myCheckbox.name = `isCompleted${habit.habitId}`;
             myCheckbox.id = `isCompleted${habit.habitId}`;
@@ -60,6 +62,7 @@ async function renderHabitsList(db, habitDatabaseName, habits) {
                 setProgressBar(habit.habitGoal, eventNumCompleted, progressBarInner);
             });
 
+            //Progress bar
             progressBarInner.id = "progress-bar-inner";
             progressBarInner.className = "progress-bar-inner-class";
             progressBarOutter.id = "progress-bar-outter";

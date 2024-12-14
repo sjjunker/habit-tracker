@@ -14,6 +14,10 @@ setDarkMode();
 let darkMode = document.getElementById("dark-mode");
 darkMode.addEventListener("change", setDarkMode);
 
+const app = startFirestore();
+const db = getFirestore(app);
+const auth = getAuth();
+
 try {
     await loadHeaderFooter();
 } catch (err) {
@@ -25,10 +29,6 @@ try {
 } catch (err) {
     console.log(err);
 }
-
-const app = startFirestore();
-const db = getFirestore(app);
-const auth = getAuth();
 
 settingsEventListeners();
 setSettingsCheckboxes();

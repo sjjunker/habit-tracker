@@ -40,6 +40,7 @@ export async function setEventListeners(db, collection, habitId) {
 
         //set the completed array to an array of strings
         let mappedArray = completed.map(day => day.toDate());
+        mappedArray.sort();
 
         //Reset the streak number
         streakElement.innerHTML = computeStreak(mappedArray);

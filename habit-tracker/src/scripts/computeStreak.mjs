@@ -1,39 +1,29 @@
+export default function computeStreak(dateArray) {
+    //Sort the array
+    dateArray.sort((a, b) => new Date(a) - new Date(b));
 
-
-export default function computeStreak(dateString) {
     let streakNum = 0;
-    let maxCount = 1;
+    let currentStreak = 1;
     const MILI_IN_DAY = 86400000;
-    let completedList = dateString ? dateString : [];
-    console.log(typeof dateString[0]);
 
+    if (dateArray.length > 0) {
+        for (let index = 0; index < dateArray.length - 1; index++) {
+            //Check to see if the dates are 24hrs apart
+            const currentDate = new Date(dateArray[index]).getTime();
+            const nextDate = new Date(dateArray[index + 1]).getTime();
 
-    if (completedList.length > 0) {
-        console.log("in if");
+            const timeInterval = nextDate - currentDate;
 
-        completedList.forEach((completedDay, index) => {
-            //check to make sure there is a next day
-            if (index + 1 < completedList.length) {
-
-                //Check to see if the dates are 24hrs apart
-                let firstDay = new Date(completedList[index + 1]).getTime();
-                console.log(firstDay);
-                let nextDay = new Date(completedDay).getTime();
-                console.log(nextDay);
-                let timeInterval = firstDay - nextDay;
-                if (timeInterval <= MILI_IN_DAY + 100000 && timeInterval >= MILI_IN_DAY - 100000) {
-                    maxCount += 1;
-                } else {
-                    //Set streak number if it is less
-                    if (maxCount > streakNum) {
-                        streakNum = maxCount;
-                        maxCount = 1;
-                    }
-                }
+            if (timeInterval <= MILI_IN_DAY + 100000 && timeInterval >= MILI_IN_DAY - 100000) {
+                currentStreak++;
+            } else {
+                //Set streak number if it is less
+                streakNum = Math.max(streakNum, currentStreak);
+                currentStreak = 1;
             }
-        });
+        }
 
-        streakNum = Math.max(streakNum, maxCount);
+        streakNum = Math.max(streakNum, currentStreak);
         return streakNum;
     } else {
         return 0;

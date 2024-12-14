@@ -46,6 +46,7 @@ setPersistence(auth, browserLocalPersistence)
 
       } else {
         console.log("No user is signed in.");
+        document.getElementById("habits-list").innerHtml = "";
       }
     });
   })
