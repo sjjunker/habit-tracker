@@ -50,11 +50,11 @@ setPersistence(auth, browserLocalPersistence)
       if (user) {
         console.log("User is signed in:", user);
 
-        //Listen for adding habits
-        addHabit(db, habitDatabaseName, true);
-
         //Load and render list of habits
         await loadHabitList(db, habitDatabaseName);
+
+        //Listen for adding habits
+        addHabit(db, habitDatabaseName, true);
 
       } else {
         alert("No user is signed in.");

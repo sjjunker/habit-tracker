@@ -308,6 +308,46 @@ main {
 /*end hamburger menu*/
 
 /*Hero styling*/
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  #hero-image {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  #hero-image {
+    width: 600px;
+    height: auto;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  #hero-image {
+    width: 768px;
+    height: auto;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  #hero-image {
+    width: 992px;
+    height: auto;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  #hero-image {
+    width: 1200px;
+    height: auto;
+  }
+}
+
 #hero-div {
   width: 100vw;
   height: auto;
@@ -315,18 +355,21 @@ main {
 }
 
 #hero-image {
-  width: 100%;
-  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
 #inspirational-quote {
   color: #003838;
   padding: 2rem;
   position: absolute;
+  margin-right: 120px;
+  left: 100px;
+  top: 50px;
   font-family: cursive;
+  background-color: #fff5ad5d;
+  border-radius: 1rem;
 }
-
-
 
 /* Modal Styles */
 #login-modal,

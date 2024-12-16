@@ -58,7 +58,7 @@ export async function readData(db, collectionName) {
                 habitGoal: doc.data().habitGoal,
                 setReminder: doc.data().setReminder,
                 habitDescription: doc.data().habitDescription,
-                completed: doc.data().completed ? doc.data().completed : null
+                completed: doc.data().completed ? doc.data().completed : []
             });
         });
 
